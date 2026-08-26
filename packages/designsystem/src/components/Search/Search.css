@@ -25,6 +25,25 @@
   color: var(--ds-color-accent-base-default, #003045);
 }
 
+/* Designsystemet paints its own magnifier on the Search container whenever the
+   field is an input[type=search], and pads the input's inline-start to make room
+   for it. This widget supplies its own magnifier in the submit button and runs the
+   input flush to the edge, so DS's icon would sit on top of the placeholder.
+   Suppress it on both pseudo-elements: DS used ::before up to 1.15 and ::after
+   from 1.20, and the container has no other generated content. */
+.dibk-search__field::before,
+.dibk-search__field::after {
+  content: none;
+}
+
+/* Hide the clear button while the field is empty, so there is no × offering to
+   clear nothing. Designsystemet did this itself up to 1.15 and dropped the rule
+   in 1.20. The widget always renders a placeholder, so :placeholder-shown is a
+   reliable stand-in for "the field is empty". */
+.dibk-search__field:has(input:placeholder-shown) button[type="reset"] {
+  display: none;
+}
+
 .dibk-search__field input {
   border: 0;
   border-radius: 0;
