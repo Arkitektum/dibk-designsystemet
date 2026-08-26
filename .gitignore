@@ -1,0 +1,16 @@
+node_modules/
+.pnpm-store/
+dist/
+storybook-static/
+*.log
+*.zip
+*.tsbuildinfo
+
+# Never commit secrets; keep env files outside the repo
+.env
+.env.*
+
+# Editor and OS cruft
+.vscode/
+.idea/
+.DS_Store

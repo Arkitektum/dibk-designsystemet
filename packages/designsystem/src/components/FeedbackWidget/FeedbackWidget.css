@@ -1,0 +1,29 @@
+.dibk-feedback {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 1.5rem;
+  padding: 1.25rem 2rem;
+  background-color: var(--dibk-surface-grey);
+}
+
+.dibk-feedback__question {
+  margin: 0;
+  color: var(--ds-color-accent-base-default, #003045);
+  font-size: 1.125rem;
+  line-height: 1.5;
+  font-weight: var(--ds-font-weight-semibold);
+}
+
+.dibk-feedback__actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+/* The Ja/Nei buttons are Designsystemet Buttons (primary/secondary). Colour,
+   border, focus ring and radius come from the theme; only the wider DIBK padding
+   is nudged here. */
+.dibk-feedback__btn {
+  padding-inline: 2rem;
+}

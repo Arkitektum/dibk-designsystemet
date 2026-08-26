@@ -1,0 +1,9 @@
+{
+  "//": "Legacy resolution stub. TypeScript's moduleResolution:node and bundlers predating the exports field cannot see subpath exports, so they resolve dibk-designsystemet/icons as this directory instead. Modern resolvers use the exports map in the root package.json and never read this file.",
+  "name": "dibk-designsystemet-icons",
+  "private": true,
+  "main": "../dist/icons.cjs",
+  "module": "../dist/icons.js",
+  "types": "../dist/icons.d.ts",
+  "sideEffects": false
+}

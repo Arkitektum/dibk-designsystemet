@@ -1,0 +1,14 @@
+/* Identity block in the account dropdown, aligned with the DS dropdown's own
+   heading/item padding. */
+.dibk-account__id {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--ds-size-2);
+  padding: 0 var(--ds-size-4) var(--ds-size-2);
+}
+
+/* Login row below the mega-menu links. */
+.dibk-menu-login {
+  margin-top: var(--ds-size-10);
+}

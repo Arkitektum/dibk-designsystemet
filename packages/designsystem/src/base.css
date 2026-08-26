@@ -1,0 +1,60 @@
+/* DIBK brand tokens that are NOT derivable from the Designsystemet accent: the
+   pale surface fills and the brand ink. Single source of truth - components and
+   overrides reference these custom properties, never the raw hex. (The navy
+   accent, by contrast, comes from the generated theme as
+   --ds-color-accent-base-default.) */
+:root {
+  --dibk-color-ink: #202020;
+  /* Warm grey for meta text (dates, counts, secondary labels). */
+  --dibk-color-meta: #6b6560;
+  /* Subtle warm-grey divider/border. */
+  --dibk-color-hairline: #d7d4d1;
+  /* Hover/focus ring on the search widget. */
+  --dibk-color-ring: #4899e0;
+  --dibk-surface-blue: #ebf4fa;
+  --dibk-surface-blue-hover: #dceaf5;
+  --dibk-surface-green: #f1fae3;
+  --dibk-surface-orange: #faf0de;
+  --dibk-surface-grey: #f4f4f4;
+  --dibk-surface-pink: #f5f0f0;
+
+  /* DIBK info-circle glyph: the brand "i" (a navy disc with a stylised white "i").
+     Two-tone, so it's a full-colour image meant for background-image (not a
+     single-colour mask). Reusable: the Alert info override references it, and
+     anything else can too. */
+  --dibk-icon-info: url("data:image/svg+xml,%3Csvg%20viewBox%3D%270%200%2060%2060%27%20fill%3D%27none%27%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%3E%3Ccircle%20cx%3D%2732%27%20cy%3D%2730%27%20r%3D%2719%27%20fill%3D%27white%27/%3E%3Cpath%20d%3D%27M30%200C13.4325%200%200%2013.4325%200%2030C0%2046.5675%2013.4325%2060%2030%2060C46.5675%2060%2060%2046.5675%2060%2030C60%2013.4325%2046.5675%200%2030%200ZM24.9175%2040.025C26.3275%2035.5525%2028.9975%2030.195%2029.47%2028.84C30.1525%2026.8725%2028.9425%2026%2025.12%2029.3625L24.27%2027.7625C28.63%2023.02%2037.6075%2021.9475%2034.5525%2029.295C32.645%2033.8825%2031.28%2036.98%2030.5%2039.37C29.3625%2042.8525%2032.235%2041.44%2035.0475%2038.8425C35.43%2039.4675%2035.555%2039.67%2035.9375%2040.39C29.6925%2046.335%2022.76%2046.86%2024.9175%2040.025ZM36.7725%2019.6025C35.4425%2020.735%2033.4725%2020.71%2032.37%2019.5475C31.2675%2018.385%2031.4525%2016.5275%2032.78%2015.395C34.11%2014.2625%2036.08%2014.29%2037.1825%2015.45C38.28%2016.615%2038.1%2018.4725%2036.7725%2019.6025Z%27%20fill%3D%27%23003045%27/%3E%3C/svg%3E");
+
+  /* Page container: the single source of truth for content width + side gutters.
+     DibkHeader, DibkFooter and DibkAppShell's content all reference these, so the
+     header bar, page content and footer line up edge-to-edge. */
+  --dibk-container-max: 1400px;
+  /* Side gutter, fluid: tracks viewport width so the same token gives roomy
+     gutters on desktop and tight ones on phones. Header, content and footer all
+     read it, so all three keep aligned edges at every width. clamp keys off vw,
+     which is correct here because the container is the top-level page frame and
+     is never nested; a nested container would want a container query instead. */
+  --dibk-container-pad: clamp(1.25rem, 6vw, 6rem);
+}
+
+/* DIBK base: applies the brand font and body ink to the page. Designsystemet only
+   sets the font on its own components, so without this an app's plain text falls
+   back to the browser serif. :where() keeps specificity at 0 so apps can override. */
+:where(body) {
+  margin: 0;
+  font-family: var(--ds-font-family, system-ui, sans-serif);
+  color: var(--ds-color-neutral-text-default, #202020);
+}
+
+/* Visually hidden, still read by screen readers (for text accompanying
+   purely visual glyphs like the login padlock). */
+.dibk-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}

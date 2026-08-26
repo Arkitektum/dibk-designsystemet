@@ -1,0 +1,80 @@
+/* Layout primitives (Every-Layout style): token-driven gaps, zero runtime.
+   Classes use the neutral `l-` namespace (not `dibk-`) - they back the unprefixed
+   Stack / Cluster / Sidebar / Grid components. `gap` is set directly (never via an
+   inherited custom property) so a nested primitive never picks up its parent's gap. */
+
+/* Stack: vertical flow; owns the space between children. */
+.l-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-5);
+}
+.l-stack[data-align="start"] {
+  align-items: flex-start;
+}
+.l-stack[data-align="center"] {
+  align-items: center;
+}
+
+/* Cluster: horizontal group; wraps by default. */
+.l-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ds-size-3);
+}
+.l-cluster[data-align="baseline"] {
+  align-items: baseline;
+}
+.l-cluster[data-justify="between"] {
+  justify-content: space-between;
+}
+.l-cluster[data-wrap="false"] {
+  flex-wrap: nowrap;
+}
+
+/* Sidebar: fixed side column + fluid main that wraps to one column on its own.
+   Mark the narrow column with data-side. Tune via --l-sidebar-width /
+   --l-sidebar-content-min. */
+.l-sidebar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  gap: var(--ds-size-8);
+}
+.l-sidebar > [data-side] {
+  flex: 0 0 var(--l-sidebar-width, 18rem);
+  /* Cap the column at its basis: without this, wide content inside the side
+     column raises its automatic min-width past the basis and forces the whole
+     column to wrap below the main content. Content wider than the column
+     wraps or overflows inside it instead. The min(…, 100%) also keeps the column
+     from exceeding the viewport once it wraps to a full row on a narrow screen -
+     a fixed basis wider than the phone would otherwise overflow horizontally. */
+  min-inline-size: 0;
+  max-inline-size: min(var(--l-sidebar-width, 18rem), 100%);
+}
+.l-sidebar > :not([data-side]) {
+  flex: 1 1 0;
+  min-inline-size: var(--l-sidebar-content-min, 60%);
+}
+
+/* Grid: intrinsic responsive grid (no breakpoints). Tune via --l-grid-min. */
+.l-grid {
+  display: grid;
+  gap: var(--ds-size-5);
+  grid-template-columns: repeat(auto-fit, minmax(var(--l-grid-min, 16rem), 1fr));
+}
+
+/* gap scale */
+:is(.l-stack, .l-cluster, .l-grid, .l-sidebar)[data-gap="xs"] {
+  gap: var(--ds-size-2);
+}
+:is(.l-stack, .l-cluster, .l-grid, .l-sidebar)[data-gap="sm"] {
+  gap: var(--ds-size-3);
+}
+:is(.l-stack, .l-cluster, .l-grid, .l-sidebar)[data-gap="md"] {
+  gap: var(--ds-size-5);
+}
+:is(.l-stack, .l-cluster, .l-grid, .l-sidebar)[data-gap="lg"] {
+  gap: var(--ds-size-8);
+}

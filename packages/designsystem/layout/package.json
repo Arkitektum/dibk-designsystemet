@@ -1,0 +1,9 @@
+{
+  "//": "Legacy resolution stub. TypeScript's moduleResolution:node and bundlers predating the exports field cannot see subpath exports, so they resolve dibk-designsystemet/layout as this directory instead. Modern resolvers use the exports map in the root package.json and never read this file.",
+  "name": "dibk-designsystemet-layout",
+  "private": true,
+  "main": "../dist/layout.cjs",
+  "module": "../dist/layout.js",
+  "types": "../dist/layout.d.ts",
+  "sideEffects": false
+}

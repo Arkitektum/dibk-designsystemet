@@ -1,0 +1,254 @@
+/* DIBK tailoring of Designsystemet components. These rules are intentionally
+   unlayered so they win over Designsystemet's @layer ds styles without needing
+   high specificity. Keep this list small and justified. */
+
+/* Global weight reduction (one notch down). Designsystemet components and our own
+   read these tokens, so this is the single lever for "lighter everywhere". Tuned for
+   Poppins, which renders heavier than most fonts at a given numeric weight. */
+:root {
+  --ds-font-weight-regular: 300;
+  --ds-font-weight-medium: 400;
+  --ds-font-weight-semibold: 500;
+}
+
+/* Bold text has no Designsystemet weight token; remap the element defaults to the
+   same one-notch-down reduction (browser bold is 700). */
+strong,
+b {
+  font-weight: 600;
+}
+
+/* Page titles are 32px; Designsystemet's heading-lg is 2.25rem, DIBK's is 2rem.
+   Fixed value, so it does not scale with DS density size-modes -
+   acceptable since headings never sit in data-size regions in DIBK apps. The theme
+   declares the token on `:root, [data-size]`, and Heading carries data-size on the
+   element itself, so the override must match [data-size] too or the element-level
+   declaration wins. */
+:root,
+[data-size] {
+  --ds-heading-lg-font-size: 2rem;
+}
+
+/* Tighter tracking. Designsystemet has no single letter-spacing token, so we remap
+   the per-size ones. Poppins is a touch wide/airy at brand sizes; this tightens it.
+   The body value is kept milder than the headings for legibility at reading sizes. */
+:root {
+  --ds-body-xs-letter-spacing: -0.01em;
+  --ds-body-sm-letter-spacing: -0.01em;
+  --ds-body-md-letter-spacing: -0.01em;
+  --ds-body-lg-letter-spacing: -0.01em;
+  --ds-body-xl-letter-spacing: -0.01em;
+  --ds-body-long-xs-letter-spacing: -0.01em;
+  --ds-body-long-sm-letter-spacing: -0.01em;
+  --ds-body-long-md-letter-spacing: -0.01em;
+  --ds-body-long-lg-letter-spacing: -0.01em;
+  --ds-body-long-xl-letter-spacing: -0.01em;
+  --ds-body-short-xs-letter-spacing: -0.01em;
+  --ds-body-short-sm-letter-spacing: -0.01em;
+  --ds-body-short-md-letter-spacing: -0.01em;
+  --ds-body-short-lg-letter-spacing: -0.01em;
+  --ds-body-short-xl-letter-spacing: -0.01em;
+  --ds-heading-2xs-letter-spacing: -0.037em;
+  --ds-heading-xs-letter-spacing: -0.037em;
+  --ds-heading-sm-letter-spacing: -0.037em;
+  --ds-heading-md-letter-spacing: -0.037em;
+  --ds-heading-lg-letter-spacing: -0.037em;
+  --ds-heading-xl-letter-spacing: -0.037em;
+  --ds-heading-2xl-letter-spacing: -0.037em;
+}
+
+/* DIBK callouts are flat pale panels - no border (Designsystemet Alert adds a
+   colored 1px border). The pale fill + square corners come from the theme. */
+.ds-alert {
+  border: none;
+}
+/* DIBK info callouts use the brand info-circle (navy disc + white "i"), not
+   Designsystemet's flat monochrome square-"i". It's two-tone, so it can't come
+   from DS's single-color mask: render the --dibk-icon-info image as a background
+   and switch the mask off. The selector mirrors DS's own icon pseudo, plus
+   [data-color=info] so it wins on specificity (and unlayered, so it beats @layer
+   ds). */
+.ds-alert[data-color="info"]:not(:has(> :is(h1, h2, h3, h4, h5, h6):first-child))::before,
+.ds-alert[data-color="info"] > :is(h1, h2, h3, h4, h5, h6):first-child::before {
+  background: center / contain no-repeat var(--dibk-icon-info);
+  -webkit-mask: none;
+  mask: none;
+}
+
+/* DIBK cards are flat colored panels with NO border. There is no bordered
+   "default" card - every card is a flat panel.
+   The background is chosen with `data-dibk-color` (white when omitted). We use a
+   dedicated attribute rather than Designsystemet's `data-color` on purpose:
+   `data-color` would re-map the whole color family for the card's contents, turning
+   buttons and headings blue/green. DIBK keeps those navy, so we colour only the
+   background. Usage:
+     <Card>…</Card>                            // white
+     <Card data-dibk-color="blue">…</Card>
+     <Card data-dibk-color="green">…</Card>
+     <Card data-dibk-color="orange">…</Card>
+     <Card data-dibk-color="grey">…</Card>
+     <Card data-dibk-color="pink">…</Card>  */
+.ds-card {
+  --dsc-card-border-width: 0;
+  --dsc-card-block-border-width: 0;
+  background: #fff; /* white (default) */
+}
+.ds-card[data-dibk-color="blue"] {
+  background: var(--dibk-surface-blue);
+}
+.ds-card[data-dibk-color="green"] {
+  background: var(--dibk-surface-green);
+}
+.ds-card[data-dibk-color="orange"] {
+  background: var(--dibk-surface-orange);
+}
+.ds-card[data-dibk-color="grey"] {
+  background: var(--dibk-surface-grey);
+}
+.ds-card[data-dibk-color="pink"] {
+  background: var(--dibk-surface-pink);
+}
+
+/* DIBK accordion (Details): flat pale-blue panels, navy bold header, chevron on the
+   RIGHT, a gap between items, no border. Designsystemet defaults to white panels
+   with hairline rules and the chevron on the left. */
+.ds-details {
+  --dsc-details-background: var(--dibk-surface-blue);
+  --dsc-details-summary-background: var(--dibk-surface-blue);
+  --dsc-details-summary-background--hover: var(--dibk-surface-blue-hover);
+  --dsc-details-summary-background--open: var(--dibk-surface-blue);
+  --dsc-details-summary-color: var(--ds-color-accent-base-default, #003045);
+  --dsc-details-padding: var(--ds-size-4) var(--ds-size-5);
+  border: none;
+}
+/* DS collapses adjacent items; DIBK shows a gap between them. */
+.ds-details + .ds-details {
+  margin-top: 0.5rem;
+}
+.ds-details > :is(summary, u-summary) {
+  justify-content: space-between;
+  font-weight: var(--ds-font-weight-semibold);
+}
+/* Move the chevron from the left (default) to the right, and animate its rotate so
+   it turns smoothly with the panel instead of snapping (DS rotates it 180deg on
+   open but sets no transition). */
+.ds-details > :is(summary, u-summary)::before {
+  order: 1;
+  transition: rotate 0.2s ease;
+}
+/* Quicker, subtler panel expand/contract than DS's 0.4s default (the chevron
+   turn above matches it). */
+.ds-details::details-content,
+.ds-details::part(details-content) {
+  transition-duration: 0.2s;
+}
+/* Browsers without `interpolate-size` (Firefox) can't animate height to auto,
+   so DS's transition above snaps there. Give them the same motion by animating
+   the content grid row 0fr -> 1fr instead, which interpolates wherever
+   ::details-content exists. Assumes a single content element after the summary
+   (what Details.Content renders). Chromium/Safari keep the native height path. */
+@supports not (interpolate-size: allow-keywords) {
+  /* minmax(0, …) rather than bare fr: a bare fr track is minmax(auto, fr), and
+     the auto minimum floors the track at the content's margins mid-transition. */
+  .ds-details::details-content {
+    block-size: auto;
+    display: grid;
+    grid-template-rows: minmax(0, 0fr);
+    transition:
+      content-visibility 0.2s allow-discrete,
+      grid-template-rows 0.2s;
+  }
+  .ds-details[open]::details-content {
+    grid-template-rows: minmax(0, 1fr);
+  }
+  /* The row can only collapse if its item may shrink below its content size. */
+  .ds-details > :not(summary, u-summary) {
+    min-block-size: 0;
+  }
+}
+
+/* DIBK buttons: square, weight 500, a navy border on both fill and outline
+   variants, and the signature hover INVERT (primary navy<->white, secondary
+   transparent<->navy). DS drives its
+   hover off --dsc-button-* custom properties, so we remap those rather than fight
+   state selectors - no !important, no specificity escalation. */
+.ds-button {
+  font-weight: var(--ds-font-weight-semibold); /* 500 in the DIBK weight remap */
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.ds-button[data-variant="primary"] {
+  --dsc-button-border-color: var(--ds-color-accent-base-default);
+  --dsc-button-background--hover: var(--ds-color-accent-base-contrast-default);
+  --dsc-button-color--hover: var(--ds-color-accent-base-default);
+}
+.ds-button[data-variant="secondary"] {
+  --dsc-button-border-color: var(--ds-color-accent-base-default);
+  --dsc-button-color: var(--ds-color-accent-base-default);
+  --dsc-button-background--hover: var(--ds-color-accent-base-default);
+  --dsc-button-color--hover: var(--ds-color-accent-base-contrast-default);
+}
+.ds-button[data-variant="tertiary"] {
+  --dsc-button-color: var(--ds-color-accent-base-default);
+}
+
+/* Pagination buttons are tertiary `.ds-button`s, so the tertiary color override
+   leaks navy text onto the ACTIVE page (DS fills it navy via aria-current) ->
+   navy-on-navy, invisible - the same trap as the toggle group below. Re-assert
+   the contrast colour for the current page (wins over the tertiary rule by
+   specificity, and over @layer ds by being unlayered). */
+.ds-pagination .ds-button[aria-current="true"] {
+  --dsc-button-color: var(--ds-color-accent-base-contrast-default);
+}
+/* On phones, compact the pagination so 5 pages + ellipsis + prev/next clear a
+   narrow column without wrapping: tighter inter-button gap, narrower buttons
+   (height/tap target unchanged), and the DS ellipsis cell trimmed from its
+   reserved --ds-size-12 (~3rem) to match. Apps that also want to drop the
+   prev/next TEXT on phones hide their own label span (the chevrons and
+   aria-labels are the DS's and remain). */
+@media (max-width: 36rem) {
+  .ds-pagination {
+    --dsc-pagination-gap: 0.125rem;
+  }
+  .ds-pagination .ds-button {
+    min-inline-size: 2.25rem;
+    --dsc-button-padding-inline: 0.25rem;
+  }
+  .ds-pagination li:empty::before {
+    min-inline-size: 1.5rem;
+  }
+}
+
+/* ToggleGroup items are internally tertiary `.ds-button`s, so the tertiary
+   color override above leaks into them: it forces navy text on the ACTIVE item
+   (which has a navy fill) -> navy-on-navy, invisible, and overrides the muted
+   color DS gives inactive items. Re-assert DS's own toggle-group text colors
+   (these win over the tertiary rule by specificity, and over @layer ds by being
+   unlayered): muted for inactive, base-contrast for the checked item. */
+:is(.ds-toggle-group, .ds-togglegroup) label {
+  --dsc-button-color: var(--ds-color-text-subtle);
+}
+:is(.ds-toggle-group, .ds-togglegroup) label:has(input:checked) {
+  --dsc-button-color: var(--ds-color-base-contrast-default);
+}
+/* A disabled toggle item keeps the normal pointer. DS sets `cursor: not-allowed`,
+   which some Linux cursor themes render as an empty glyph (the pointer appears to
+   vanish on hover). The 30% dim already signals the disabled state. */
+:is(.ds-toggle-group, .ds-togglegroup) label[aria-disabled="true"] {
+  cursor: default;
+}
+/* Same empty-glyph problem on disabled fields (e.g. the faceted filter's
+   zero-count checkboxes). DS dims them and sets `cursor: not-allowed` on every
+   child; keep the dim, drop the vanishing cursor. */
+.ds-field:has(:disabled:not(option), [aria-disabled="true"]) > * {
+  cursor: default;
+}
+
+/* Tabs: the DIBK active state is navy + semibold (same language as the subnav
+   and mega-menu), not DS's neutral. The underline indicator inherits the
+   selected color via DS's own ::after rule, so remapping the token is enough. */
+.ds-tabs {
+  --dsc-tabs-tab-color--selected: var(--ds-color-accent-base-default);
+}
+.ds-tabs [role="tab"][aria-selected="true"] {
+  font-weight: var(--ds-font-weight-semibold);
+}

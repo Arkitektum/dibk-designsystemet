@@ -1,0 +1,47 @@
+/* Menu section anatomy: 40px icon + 24px semibold
+   navy title on one row (16px apart), then the link list indented 32px with a
+   20px gap below the title row. */
+
+.dibk-menusection__header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 20px;
+  color: var(--ds-color-accent-base-default, #003045);
+  font-size: var(--ds-font-size-6); /* 24px */
+  font-weight: var(--ds-font-weight-semibold);
+  line-height: 1.333;
+}
+
+.dibk-menusection__icon {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dibk-menusection__icon :where(svg, img) {
+  width: 100%;
+  height: 100%;
+}
+
+.dibk-menusection__titlelink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.dibk-menusection__titlelink:hover,
+.dibk-menusection__titlelink:focus-visible {
+  text-decoration: underline;
+}
+
+.dibk-menusection__body {
+  padding-left: 32px;
+}
+
+/* Section links stack on bare line boxes (no extra gap between rows). */
+.dibk-menusection__body .dibk-iconlinklist {
+  row-gap: 0;
+}

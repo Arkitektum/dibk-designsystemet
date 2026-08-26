@@ -1,0 +1,68 @@
+.dibk-appshell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+.dibk-appshell__main {
+  flex: 1;
+  width: 100%;
+}
+/* The skip-link target is programmatically focusable (tabindex -1); suppress the
+   focus ring so jumping to content doesn't paint an outline around the page. */
+.dibk-appshell__main:focus {
+  outline: none;
+}
+
+/* Skip link (WCAG 2.4.1): off-screen until it receives keyboard focus, then it
+   drops into the top-left as a navy panel. Fixed to the viewport (not the
+   document) so it appears at the top-left at any scroll position, instead of
+   being stranded at the document top. Mouse users never see it. */
+.dibk-skiplink {
+  position: fixed;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  padding: 0.5rem 1rem;
+  background: var(--ds-color-accent-base-default);
+  color: var(--ds-color-accent-contrast-default, #fff);
+  text-decoration: none;
+  transition: top 0.15s ease-in;
+}
+.dibk-skiplink:focus {
+  top: 1rem;
+}
+
+/* The canonical page container: same width + side gutters as the header bar.
+   border-box like the header/footer inners, so all three compute the same
+   content edges. */
+.dibk-appshell__container {
+  box-sizing: border-box;
+  max-width: var(--dibk-container-max, 1400px);
+  margin: 0 auto;
+  padding: 2rem var(--dibk-container-pad, 2rem) 4rem;
+}
+
+/* App title beside the logo. A toolbar title never wraps: it stays one line at
+   the fixed token size and truncates with an ellipsis when space is tight (the
+   header collapse tiers below free up room before that happens). min-width: 0
+   lets it shrink past its content width as a flex child of the header row, so
+   the ellipsis can engage. */
+.dibk-appshell__title {
+  display: inline-flex;
+  align-items: center;
+  min-width: 0;
+  /* Extra breathing room off the logo, on top of the header row's 24px gap. */
+  margin-left: 0.5rem;
+  font-size: var(--ds-font-size-5);
+  font-weight: var(--ds-font-weight-medium);
+  color: var(--ds-color-accent-base-default);
+}
+.dibk-appshell__titletext {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dibk-appshell__menuheading {
+  margin-block-end: var(--ds-size-6);
+}

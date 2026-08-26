@@ -1,0 +1,93 @@
+/* Full-width disclosure panel in document flow below the header: opening pushes
+   the page content down, the header stays visible. Same
+   pale blue as the header, so the open panel and the bar read as one surface. */
+.dibk-megamenu {
+  background: var(--dibk-surface-blue);
+  color: var(--ds-color-accent-base-default, #003045);
+  /* Fill the viewport below the 72px header even with sparse content, so the
+     page never peeks out under the open menu. The content below stays in flow
+     and is reachable by scrolling. */
+  min-height: calc(100dvh - 72px);
+}
+
+/* Same container geometry as the rest of the app (header, content, footer), so
+   the menu's text aligns with the page content below it. Vertical padding
+   is 32px top, 100px bottom. */
+.dibk-megamenu__inner {
+  box-sizing: border-box;
+  max-width: var(--dibk-container-max, 1400px);
+  margin: 0 auto;
+  padding: 32px var(--dibk-container-pad, 2rem) 100px;
+}
+
+/* The search widget itself is a DibkSearch; only its width and placement are
+   owned here. The negative margin counters the widget's panel padding so the
+   field's left edge aligns with the menu content below. */
+.dibk-megamenu__search {
+  max-width: 660px;
+  margin-inline-start: calc(-1 * var(--ds-size-5));
+  margin-block-end: 80px;
+}
+
+/* Layout helpers for menu content (the two-column section layout: two equal
+   tracks 20px apart, 48px between stacked sections). The caller renders
+   these wrappers around DibkMenuSection blocks; the panel itself imposes no
+   layout on its children. */
+.dibk-megamenu__columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 20px;
+}
+
+.dibk-megamenu__column {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 48px;
+}
+
+@media (max-width: 48rem) {
+  .dibk-megamenu__columns {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 48px;
+  }
+}
+
+/* The shell's flat-list menu fallback (menuItems without sections) renders a
+   two-column DibkIconLinkList directly in the panel. The panel spans the full
+   1400px shell, where free-growing 1fr tracks would drift the columns far
+   apart, so cap them here; minmax lets them shrink on narrow viewports. */
+.dibk-megamenu__inner > .dibk-iconlinklist[data-columns="2"] {
+  grid-template-columns: repeat(2, minmax(0, 26rem));
+}
+
+/* This selector outweighs the list's own narrow-viewport collapse, so restate
+   it (same breakpoint as IconLinkList.css). */
+@media (max-width: 36rem) {
+  .dibk-megamenu__inner > .dibk-iconlinklist[data-columns="2"] {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Opening: a quick fade + slight rise of the panel content, just softening the
+   snap. Only paint properties animate - the panel sits in document flow, so
+   animating its box would shove the page around. Closing stays instant: the
+   page content un-hides the moment the menu closes, and a lingering panel
+   would push it down. */
+@media (prefers-reduced-motion: no-preference) {
+  .dibk-megamenu__inner {
+    transition: opacity 0.18s ease-out, translate 0.18s ease-out;
+  }
+
+  @starting-style {
+    .dibk-megamenu__inner {
+      opacity: 0;
+      translate: 0 -6px;
+    }
+  }
+}
+
+.dibk-megamenu :focus-visible {
+  outline: 2px solid var(--ds-color-accent-base-default, #003045);
+  outline-offset: 4px;
+}

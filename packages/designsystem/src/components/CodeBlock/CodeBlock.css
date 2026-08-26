@@ -1,0 +1,34 @@
+/* Labelled code block: grey panel, hairline label bar, monospace pre. Wraps long
+   lines (URLs, JSON) rather than only scrolling. */
+.dibk-code {
+  border: 1px solid var(--dibk-color-hairline);
+  background: var(--dibk-surface-grey);
+}
+.dibk-code__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-size-3);
+  padding: var(--ds-size-2) var(--ds-size-2) var(--ds-size-2) var(--ds-size-4);
+  border-bottom: 1px solid var(--dibk-color-hairline);
+}
+.dibk-code__label {
+  font-size: var(--ds-font-size-1);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: var(--ds-font-weight-semibold);
+  color: var(--dibk-color-meta);
+}
+.dibk-code__pre {
+  margin: 0;
+  padding: var(--ds-size-4) var(--ds-size-4);
+  overflow-x: auto;
+}
+.dibk-code__pre code {
+  font-family: ui-monospace, "SF Mono", "Cascadia Mono", monospace;
+  font-size: var(--ds-font-size-3);
+  line-height: 1.6;
+  color: var(--dibk-color-ink);
+  white-space: pre-wrap;
+  word-break: break-word;
+}

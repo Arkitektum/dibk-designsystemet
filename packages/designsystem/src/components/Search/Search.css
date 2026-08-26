@@ -1,0 +1,77 @@
+/* DIBK search widget: a transparent padded panel
+   that turns white with a 3px ring on hover/focus (220ms); inside it a flat,
+   underline-only field with an inline magnifier, and an optional hint line.
+   The field is a Designsystemet Search (grid + Search.Input + Search.Clear +
+   Search.Button); the rules below strip DS's box chrome. Scoped to the DIBK
+   class and unlayered, so they win over @layer ds without !important. */
+
+.dibk-search {
+  display: block;
+  padding: var(--ds-size-4) var(--ds-size-5);
+  transition:
+    background-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.dibk-search:hover,
+.dibk-search:focus-within {
+  background: var(--ds-color-neutral-background-default, #fff);
+  box-shadow: inset 0 0 0 3px var(--dibk-color-ring, #4899e0);
+}
+
+.dibk-search__field {
+  border-bottom: 2px solid var(--ds-color-accent-base-default, #003045);
+  border-radius: 0;
+  color: var(--ds-color-accent-base-default, #003045);
+}
+
+.dibk-search__field input {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  /* No outline in any state (DS draws one on hover/focus): the panel ring and
+     the underline are this widget's hover/focus affordance. */
+  outline: none;
+  padding: 8px 0;
+  color: var(--ds-color-accent-base-default, #003045);
+  font: inherit;
+  font-size: 1.5rem;
+  font-weight: var(--ds-font-weight-semibold);
+  /* Ellipsize a placeholder too long for the field (e.g. on a phone) instead of
+     letting it cut off mid-word. Applies to the placeholder via the input. */
+  text-overflow: ellipsis;
+}
+
+.dibk-search__field input::placeholder {
+  color: var(--ds-color-accent-base-default, #003045);
+  opacity: 1;
+}
+
+.dibk-search__field input:focus::placeholder {
+  opacity: 0.45;
+}
+
+.dibk-search__field button {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ds-color-accent-base-default, #003045);
+}
+
+.dibk-search__hint {
+  margin-top: var(--ds-size-3);
+  font-size: 1.125rem;
+}
+
+@media (max-width: 48rem) {
+  .dibk-search__field input {
+    font-size: 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dibk-search {
+    transition: none;
+  }
+}

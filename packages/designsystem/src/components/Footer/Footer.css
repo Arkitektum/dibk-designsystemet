@@ -1,0 +1,82 @@
+.dibk-footer {
+  background-color: var(--ds-color-accent-base-default, #003045);
+  color: #ffffff;
+  width: 100%;
+}
+
+.dibk-footer__inner {
+  box-sizing: border-box;
+  max-width: var(--dibk-container-max, 1400px);
+  margin: 0 auto;
+  padding: 3rem var(--dibk-container-pad, 2rem);
+}
+
+/* App-specific content: bold intro lines and underlined links. */
+.dibk-footer__content {
+  font-size: 1.125rem;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.dibk-footer__content p {
+  margin: 0;
+}
+
+.dibk-footer__content a {
+  color: #ffffff;
+  text-decoration: underline;
+}
+
+.dibk-footer__bottom {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem 2rem;
+  margin-top: 2.5rem;
+}
+
+.dibk-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.dibk-footer__link {
+  color: #ffffff;
+  font-size: 1rem;
+  line-height: 1.4;
+  text-decoration: underline;
+}
+
+.dibk-footer__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #ffffff;
+}
+
+/* Descendant selector beats .dibk-logo's own navy `color`, so the mark inherits
+   white on the navy footer via currentColor. */
+.dibk-footer__brand .dibk-logo.dibk-footer__mark {
+  height: 2.25rem;
+  width: auto;
+  flex: none;
+  color: #ffffff;
+}
+
+.dibk-footer__wordmark {
+  font-size: 1rem;
+  line-height: 1.2;
+  font-weight: var(--ds-font-weight-semibold);
+}
+
+/* Content area drops to a single flow on narrow viewports; the bottom bar
+   already wraps via flex-wrap, so no extra rule is needed there. */
+@media (max-width: 36rem) {
+  .dibk-footer__inner {
+    padding: 2rem var(--dibk-container-pad, 2rem);
+  }
+}

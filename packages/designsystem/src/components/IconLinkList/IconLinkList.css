@@ -1,0 +1,108 @@
+.dibk-iconlinklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem 2rem;
+}
+
+/* Equal fluid tracks: the list fills its container. A context where
+   free-growing columns would drift too far
+   apart caps the tracks itself (see the mega-menu's flat-list fallback). */
+.dibk-iconlinklist[data-columns="1"] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.dibk-iconlinklist[data-columns="2"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.dibk-iconlinklist[data-columns="3"] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.dibk-iconlinklist__item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 0.75rem;
+}
+
+.dibk-iconlinklist__icon {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ds-color-accent-base-default, #003045);
+  line-height: 0;
+}
+
+.dibk-iconlinklist__icon :where(svg, img) {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.dibk-iconlinklist__body {
+  min-width: 0;
+}
+
+/* DIBK navigation links: chevron BEFORE the label (a 20px glyph + 12px gap,
+   giving a 32px text indent), ink, medium weight, no
+   underline at rest (underline on hover), relaxed 1.625 leading. This is distinct
+   from prose/inline links, which are navy + bold + underlined. */
+.dibk-iconlinklist__link {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: var(--dibk-color-ink, #202020);
+  font-size: 1.25rem;
+  line-height: 1.625;
+  font-weight: var(--ds-font-weight-medium);
+  text-decoration: none;
+  text-underline-offset: 0.15em;
+}
+
+.dibk-iconlinklist__link:hover,
+.dibk-iconlinklist__link:focus-visible {
+  text-decoration: underline;
+}
+
+.dibk-iconlinklist__chevron {
+  flex: none;
+  /* Optically centre the 20px glyph on the first text line, so it stays put
+     when a long label wraps. */
+  margin-top: calc((1.625em - 20px) / 2);
+}
+
+/* Padlock on login-gated items. */
+.dibk-iconlinklist__lock {
+  flex: none;
+  align-self: center;
+  line-height: 0;
+  color: var(--ds-color-accent-base-default, #003045);
+}
+.dibk-iconlinklist__lock svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.dibk-iconlinklist__description {
+  margin: 0.25rem 0 0;
+  color: var(--dibk-color-ink, #202020);
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: var(--ds-font-weight-regular);
+}
+
+@media (max-width: 62rem) {
+  .dibk-iconlinklist[data-columns="3"] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 36rem) {
+  .dibk-iconlinklist[data-columns="2"],
+  .dibk-iconlinklist[data-columns="3"] {
+    grid-template-columns: 1fr;
+  }
+}

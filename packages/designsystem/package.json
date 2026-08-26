@@ -1,0 +1,106 @@
+{
+  "name": "dibk-designsystemet",
+  "version": "1.0.0-rc.1",
+  "description": "DIBK design system: Designsystemet (Digdir) with DIBK theme, brand components and brand icons.",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arkitektum/dibk-designsystemet.git"
+  },
+  "homepage": "https://github.com/Arkitektum/dibk-designsystemet#readme",
+  "bugs": "https://github.com/Arkitektum/dibk-designsystemet/issues",
+  "keywords": [
+    "dibk",
+    "designsystem",
+    "designsystemet",
+    "digdir",
+    "react",
+    "components"
+  ],
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "files": [
+    "dist",
+    "layout",
+    "icons",
+    "CHANGELOG.md"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./layout": {
+      "import": {
+        "types": "./dist/layout.d.ts",
+        "default": "./dist/layout.js"
+      },
+      "require": {
+        "types": "./dist/layout.d.cts",
+        "default": "./dist/layout.cjs"
+      }
+    },
+    "./icons": {
+      "import": {
+        "types": "./dist/icons.d.ts",
+        "default": "./dist/icons.js"
+      },
+      "require": {
+        "types": "./dist/icons.d.cts",
+        "default": "./dist/icons.cjs"
+      }
+    },
+    "./styles.css": "./dist/styles.css",
+    "./fonts.css": "./dist/fonts.css",
+    "./theme.css": "./dist/theme.css",
+    "./index.css": "./dist/index.css",
+    "./layout.css": "./dist/layout.css",
+    "./swagger.css": "./dist/swagger.css",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\"",
+    "icons": "node scripts/gen-icons.mjs",
+    "theme": "node scripts/build-theme.mjs",
+    "swagger-assets": "node scripts/copy-swagger-assets.mjs",
+    "styles-entry": "node scripts/build-styles-entry.mjs",
+    "fonts-entry": "node scripts/build-fonts-entry.mjs",
+    "build": "pnpm clean && pnpm icons && tsup && pnpm theme && pnpm swagger-assets && pnpm styles-entry && pnpm fonts-entry",
+    "dev": "tsup --watch",
+    "types": "tsc --noEmit",
+    "prepublishOnly": "pnpm build"
+  },
+  "peerDependencies": {
+    "react": ">=18.3.1 || ^19.0.0",
+    "react-dom": ">=18.3.1 || ^19.0.0",
+    "@digdir/designsystemet-css": "^1.15.0",
+    "@digdir/designsystemet-react": "^1.15.0",
+    "@fontsource/poppins": "^5.2.7"
+  },
+  "devDependencies": {
+    "@digdir/designsystemet": "^1.15.0",
+    "@digdir/designsystemet-css": "^1.15.0",
+    "@digdir/designsystemet-react": "^1.15.0",
+    "@fontsource/poppins": "^5.2.7",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.0"
+  }
+}

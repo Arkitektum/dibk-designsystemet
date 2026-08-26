@@ -1,0 +1,213 @@
+/* DIBK skin for Swagger UI.
+
+   Brand values (navy, pale surfaces, square corners) and the DIBK wordmark (a baked
+   navy data-URI) live here. Swagger UI is a standalone bundle with its own DOM, so
+   this targets its class names directly rather than composing Designsystemet
+   components, and it is plain static CSS rather than a bundled entry.
+
+   The host serves this file as a static asset and injects it into Swagger UI (in
+   ASP.NET, SwaggerUIOptions.InjectStylesheet). The @font-face URLs below are relative
+   to this stylesheet, so the host must also serve the five Poppins woff2 files from a
+   `fonts/` directory beside it. Those files come from @fontsource/poppins, a peer
+   dependency of this package, not from this package itself: Swagger UI has no bundler,
+   so they have to be real paths the host lays out. Without them the skin falls back to
+   system-ui and every other brand value still applies.
+
+   Single-sourced here (the "./swagger.css" export) so every DIBK app that exposes
+   Swagger gets the same look. */
+
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 300; font-display: swap; src: url("fonts/poppins-latin-300-normal.woff2") format("woff2"); }
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 400; font-display: swap; src: url("fonts/poppins-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 500; font-display: swap; src: url("fonts/poppins-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 600; font-display: swap; src: url("fonts/poppins-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Poppins"; font-style: normal; font-weight: 700; font-display: swap; src: url("fonts/poppins-latin-700-normal.woff2") format("woff2"); }
+
+.swagger-ui {
+  --dibk-navy: #003045;
+  --dibk-color-ink: #202020;
+  --dibk-surface-blue: #ebf4fa;
+  --dibk-surface-green: #f1fae3;
+  --dibk-surface-orange: #faf0de;
+  --dibk-surface-grey: #f4f4f4;
+  --dibk-container-max: 1400px;
+  --dibk-container-pad: clamp(1.25rem, 6vw, 6rem);
+  --dibk-font: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Poppins everywhere except code/JSON, which stays monospace. */
+.swagger-ui,
+.swagger-ui .info .title,
+.swagger-ui .info p,
+.swagger-ui .opblock-tag,
+.swagger-ui .opblock .opblock-summary-method,
+.swagger-ui .opblock .opblock-summary-path,
+.swagger-ui .opblock .opblock-summary-description,
+.swagger-ui .opblock-description-wrapper p,
+.swagger-ui .btn,
+.swagger-ui label,
+.swagger-ui select,
+.swagger-ui .tab li,
+.swagger-ui .parameter__name,
+.swagger-ui .parameter__type,
+.swagger-ui table thead tr th,
+.swagger-ui .response-col_status,
+.swagger-ui .model-title,
+.swagger-ui .scheme-container .schemes > label {
+  font-family: var(--dibk-font);
+}
+.swagger-ui .microlight,
+.swagger-ui code,
+.swagger-ui pre,
+.swagger-ui textarea,
+.swagger-ui .model .property-name {
+  font-family: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+/* Square corners (the DIBK signature). */
+.swagger-ui .opblock,
+.swagger-ui .btn,
+.swagger-ui .opblock .opblock-summary-method,
+.swagger-ui input[type=text],
+.swagger-ui input[type=email],
+.swagger-ui input[type=password],
+.swagger-ui input[type=search],
+.swagger-ui input[type=file],
+.swagger-ui select,
+.swagger-ui textarea,
+.swagger-ui .dialog-ux .modal-ux,
+.swagger-ui .model-box,
+.swagger-ui .topbar,
+.swagger-ui .info .title small,
+.swagger-ui .info .title small pre {
+  border-radius: 0;
+}
+
+/* Page background: Swagger UI defaults body to #fafafa (grey); make it white so the
+   pale method-tinted cards read against it. */
+body { background: #fff; }
+
+/* Content wrapper (info block, servers bar, operations, models): match the DIBK
+   app container - same max-width and side padding as DibkAppShell - so Swagger's
+   content lines up edge-to-edge with the topbar and the rest of the app instead
+   of using Swagger's wider default frame. */
+.swagger-ui .wrapper {
+  box-sizing: border-box;
+  max-width: var(--dibk-container-max);
+  padding-left: var(--dibk-container-pad);
+  padding-right: var(--dibk-container-pad);
+}
+/* The topbar nests an extra .wrapper around .topbar-wrapper, which already sets
+   the container width below. Neutralize this one so the rule above doesn't apply
+   the max-width and side padding twice (which over-indents the logo). */
+.swagger-ui .topbar .wrapper {
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* -- Top bar: the DIBK app header (pale-blue bar, navy wordmark, 1400px frame). -- */
+.swagger-ui .topbar {
+  background: var(--dibk-surface-blue);
+  padding: 0;
+  box-shadow: none;
+}
+.swagger-ui .topbar .topbar-wrapper {
+  box-sizing: border-box;
+  max-width: var(--dibk-container-max);
+  margin: 0 auto;
+  min-height: 72px;
+  padding: 12px var(--dibk-container-pad);
+  display: flex;
+  align-items: center;
+}
+/* Replace the Swagger logo with the DIBK wordmark; drop the URL-explorer input. */
+.swagger-ui .topbar .topbar-wrapper .link { display: inline-flex; align-items: center; }
+.swagger-ui .topbar .topbar-wrapper .link img,
+.swagger-ui .topbar .topbar-wrapper .link > svg { display: none; }
+.swagger-ui .topbar .topbar-wrapper .link::before {
+  content: "";
+  display: block;
+  width: 185px;
+  height: 40px;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjYgNDEgNDkwIDEwNiIgZmlsbD0iIzAwMzA0NSI+PHBhdGggZD0iTTE2My4yMDkgMTA4LjcxM0MxNTUuNzI1IDEwOC43MTMgMTUwLjA3OCAxMTMuNjg3IDE1MC4wNzggMTIyLjAyM0MxNTAuMDc4IDEzMC4zNTggMTU0LjkxOCAxMzUuNzggMTYzLjIwOSAxMzUuNzhDMTcxLjQ5OSAxMzUuNzggMTc2LjI5NCAxMzAuNjcyIDE3Ni4yOTQgMTIyLjAyM0MxNzYuMjk0IDExMy4zNzQgMTcxLjQ1NCAxMDguNzEzIDE2My4yMDkgMTA4LjcxM1pNMTcwLjUxMyAxMjIuMDIzQzE3MC41MTMgMTI3LjEzMSAxNjcuODI0IDEzMC44OTYgMTYzLjI1NCAxMzAuODk2QzE1OC42ODMgMTMwLjg5NiAxNTUuOTA0IDEyNy42MjQgMTU1LjkwNCAxMjIuMDIzQzE1NS45MDQgMTE2LjQyMSAxNTguODE3IDExMy41OTggMTYzLjI1NCAxMTMuNTk4QzE2Ny42OSAxMTMuNTk4IDE3MC41MTMgMTE2Ljk1OSAxNzAuNTEzIDEyMi4wMjNaTTE2Mi45ODUgNjYuMTg0OUMxNjIuOTg1IDU2LjMyNTkgMTU1Ljk5NCA0OS41MTQyIDE0NS45NTUgNDkuNTE0MkgxMzMuODExVjgzLjI1ODlIMTQ1Ljk1NUMxNTUuOTk0IDgzLjI1ODkgMTYyLjk4NSA3Ni4wNDM5IDE2Mi45ODUgNjYuMTg0OVpNMTM5LjU5MiA1NC43MTI2SDE0Ni4zNTlDMTUyLjYzMyA1NC43MTI2IDE1Ny4wMjQgNTkuNTk3MyAxNTcuMDI0IDY2LjE4NDlDMTU3LjAyNCA3Mi43NzI1IDE1Mi42MzMgNzguMDYwNSAxNDYuMzU5IDc4LjA2MDVIMTM5LjU5MlY1NC43MTI2Wk0xMzYuMDUyIDEwNi4zMzhWMTA5LjUySDEzMS41N1YxMTQuMzZIMTM2LjA1MlYxMzUuMTA4SDE0MS43NDNWMTE0LjM2SDE0OS4xODJWMTA5LjUySDE0MS43NDNWMTA2Ljc0MUMxNDEuNzQzIDEwNC44MTQgMTQyLjc3NCAxMDMuNzM5IDE0NC42MTEgMTAzLjczOUgxNDkuNzY1Vjk4Ljg5ODhIMTQ0LjIwOEMxMzguOTIgOTguODk4OCAxMzYuMDUyIDEwMS40OTggMTM2LjA1MiAxMDYuMzM4Wk00NjMuMDU2IDEwOC43MTNDNDU1LjkzMSAxMDguNzEzIDQ1MC4zNzQgMTEzLjkxMSA0NTAuMzc0IDEyMi4zODFDNDUwLjM3NCAxMzAuMTc5IDQ1NS43MDcgMTM1Ljc4IDQ2My41NDkgMTM1Ljc4QzQ3MS4zOTIgMTM1Ljc4IDQ3My44NTcgMTMyLjQ2NCA0NzUuMTU2IDEyNi45NTJINDY5LjU5OUM0NjguNzQ4IDEyOS41MDcgNDY2LjUwNyAxMzAuOTQxIDQ2My41OTQgMTMwLjk0MUM0NTkuMjQ3IDEzMC45NDEgNDU2LjQ2OSAxMjcuODkzIDQ1Ni4wNjYgMTIzLjQxMkg0NzUuMjQ2VjEyMi4wNjdDNDc1LjExMSAxMTMuNzc3IDQ3MC4xODIgMTA4LjcxMyA0NjMuMDU2IDEwOC43MTNaTTQ1Ni4yOSAxMTkuNDIzQzQ1Ny4xNDEgMTE1Ljc0OSA0NTkuNjk1IDExMy41NTMgNDYzLjA1NiAxMTMuNTUzQzQ2Ni40MTcgMTEzLjU1MyA0NjguNjU4IDExNS43OTQgNDY5LjM3NSAxMTkuNDIzSDQ1Ni4yOVpNMTg1LjAzMyA2OS4yNzdMMTk1LjkyMyA2MC43NjI0TDE5Mi42MDYgNTYuOTUzM0wxODQuNjMgNjMuMzYxNkwxODMuOTEzIDU3LjcxNTFIMTc5LjM0MlY4My4yNTg5SDE4NS4wMzNWNjkuMjc3Wk0yMjEuNjAxIDc1LjE5MjRIMjE2LjA0NEMyMTUuMTkyIDc3Ljc0NjggMjEyLjk1MiA3OS4xODA4IDIwOS45OTQgNzkuMTgwOEMyMDUuNjQ3IDc5LjE4MDggMjAyLjg2OSA3Ni4xMzM1IDIwMi40NjUgNzEuNjUyMkgyMjEuNjQ2VjcwLjMwNzdDMjIxLjUxMSA2Mi4wMTcyIDIxNi41ODIgNTYuOTUzMyAyMDkuNDU2IDU2Ljk1MzNDMjAyLjMzMSA1Ni45NTMzIDE5Ni43NzQgNjIuMTUxNyAxOTYuNzc0IDcwLjYyMTRDMTk2Ljc3NCA3OC40MTkgMjAyLjEwNyA4NC4wMjA3IDIwOS45NDkgODQuMDIwN0MyMTcuNzkyIDg0LjAyMDcgMjIwLjI1NiA4MC43MDQ1IDIyMS41NTYgNzUuMTkyNEgyMjEuNjAxWk0yMDkuNTAxIDYxLjc0ODNDMjEyLjgxNyA2MS43NDgzIDIxNS4xMDMgNjMuOTg5IDIxNS44MiA2Ny42MTg5SDIwMi43MzRDMjAzLjU4NiA2My45NDQyIDIwNi4xNCA2MS43NDgzIDIwOS41MDEgNjEuNzQ4M1pNMTg2LjAxOSAxMTUuMTY2TDE4NS4zMDIgMTA5LjUySDE4MC43MzFWMTM1LjA2M0gxODYuNDIyVjEyMS4wODJMMTk3LjMxMiAxMTIuNTY3TDE5My45OTYgMTA4Ljc1OEwxODYuMDE5IDExNS4xNjZaTTQ5NC4wNjcgMTE0LjMxNVYxMDkuNDc1SDQ4Ny40OFYxMDAuNzM2SDQ4MS43ODlWMTA5LjQ3NUg0NzcuMzA3VjExNC4zMTVINDgxLjc4OVYxMjcuMjIxQzQ4MS43ODkgMTMyLjI4NSA0ODQuNzkxIDEzNS4wMTkgNDkwLjM0OCAxMzUuMDE5SDQ5My42MTlWMTMwLjE3OUg0OTAuNzA2QzQ4OC42IDEzMC4xNzkgNDg3LjQ4IDEyOC45NjkgNDg3LjQ4IDEyNi44MThWMTE0LjI3SDQ5NC4wNjdWMTE0LjMxNVpNMzUxLjM4MSA3NS40NjEzQzM1MS4zODEgODAuNTI1MiAzNTQuMzgzIDgzLjI1ODkgMzU5Ljg5NiA4My4yNTg5SDM2My4xNjdWNzguNDE5SDM2MC4yNTRDMzU4LjE0OCA3OC40MTkgMzU3LjAyNyA3Ny4yMDkgMzU3LjAyNyA3NS4wNThWNjIuNTEwMkgzNjMuNjE1VjU3LjY3MDNIMzU3LjAyN1Y0OC45MzE3SDM1MS4zMzZWNTcuNjcwM0gzNDYuODU1VjYyLjUxMDJIMzUxLjMzNlY3NS40MTY1TDM1MS4zODEgNzUuNDYxM1pNMzc5LjEyMSA4NC4wMjA3QzM4NS4xNyA4NC4wMjA3IDM4OS40MjggODAuNzA0NSAzOTAuNzI3IDc1LjE5MjRIMzg1LjE3QzM4NC4zMTkgNzcuNzQ2OCAzODIuMDc4IDc5LjE4MDggMzc5LjEyMSA3OS4xODA4QzM3NC43NzQgNzkuMTgwOCAzNzEuOTk1IDc2LjEzMzUgMzcxLjU5MiA3MS42NTIySDM5MC43NzJWNzAuMzA3N0MzOTAuNjM4IDYyLjAxNzIgMzg1LjcwOCA1Ni45NTMzIDM3OC41ODMgNTYuOTUzM0MzNzEuNDU3IDU2Ljk1MzMgMzY1LjkwMSA2Mi4xNTE3IDM2NS45MDEgNzAuNjIxNEMzNjUuOTAxIDc4LjQxOSAzNzEuMjMzIDg0LjAyMDcgMzc5LjA3NiA4NC4wMjA3SDM3OS4xMjFaTTM3OC42MjggNjEuNzQ4M0MzODEuOTQ0IDYxLjc0ODMgMzg0LjIyOSA2My45ODkgMzg0Ljk0NiA2Ny42MTg5SDM3MS44NjFDMzcyLjcxMiA2My45NDQyIDM3NS4yNjcgNjEuNzQ4MyAzNzguNjI4IDYxLjc0ODNaTTMwNy40MTkgNjkuMjc3TDMxOC4zMDkgNjAuNzYyNEwzMTQuOTkyIDU2Ljk1MzNMMzA3LjAxNiA2My4zNjE2TDMwNi4yOTkgNTcuNzE1MUgzMDEuNzI4VjgzLjI1ODlIMzA3LjQxOVY2OS4yNzdaTTE2Ny44NjkgODMuMjU4OUgxNzMuNTYxVjU3LjcxNTFIMTY3Ljg2OVY4My4yNTg5Wk0xNzAuNjkzIDU0LjMwOTNDMTcyLjc5OSA1NC4zMDkzIDE3NC4zNjcgNTIuNjUxMiAxNzQuMzY3IDUwLjU4OThDMTc0LjM2NyA0OC41MjgzIDE3Mi43OTkgNDYuOTE1IDE3MC42OTMgNDYuOTE1QzE2OC41ODYgNDYuOTE1IDE2Ny4wMTggNDguNDgzNSAxNjcuMDE4IDUwLjU4OThDMTY3LjAxOCA1Mi42OTYgMTY4LjU0MiA1NC4zMDkzIDE3MC42OTMgNTQuMzA5M1pNNDIxLjUxNCAxMzUuMDYzSDQyNy4yMDZWMTA5LjUySDQyMS41MTRWMTM1LjA2M1pNNDA5LjkwOCAxMzUuMDYzSDQxNS41OTlWOTguODk4OEg0MDkuOTA4VjEzNS4wNjNaTTMzNy45MzcgNzkuNDA0OUMzMzcuOTgyIDc5LjcxODYgMzM4LjA3MSA4MC4wMzIzIDMzOC4xNjEgODAuMjU2NEMzMzguNjA5IDgyLjE4MzMgMzQwLjE3OCA4My4yNTg5IDM0Mi43NzcgODMuMjU4OUgzNDUuNDY2Vjc4LjgyMjNIMzQ0LjA3NkMzNDMuMjI1IDc4LjgyMjMgMzQyLjgyMiA3OC40MTkgMzQyLjgyMiA3Ny43MDJWNjYuMTQwMUMzNDIuODIyIDYwLjY3MjggMzM4LjY5OSA1Ni45MDg1IDMzMi4xMTEgNTYuOTA4NUMzMjUuNTI0IDU2LjkwODUgMzIwLjY4NCA2MC42NzI4IDMyMC4xNDYgNjYuMDk1M0gzMjUuODgyQzMyNi4yNDEgNjMuNDUxMyAzMjguNzA1IDYxLjYxMzkgMzMyLjAyMiA2MS42MTM5QzMzNS4zMzggNjEuNjEzOSAzMzcuMjIgNjMuMjcyIDMzNy4yNjUgNjUuNzgxNkMzMzcuMjIgNjcuNzk4MiAzMzQuMzUyIDY3LjkzMjYgMzMwLjQ5OCA2OC4zODA4QzMyNS41MjQgNjguOTYzMyAzMTkuNjA4IDcwLjIxODEgMzE5LjU2MyA3Ni4xNzgzQzMxOS41MTkgODAuOTI4NiAzMjMuMzcyIDgzLjc5NjYgMzI5LjI0MyA4My43OTY2QzMzNS4xMTQgODMuNzk2NiAzMzYuMzY4IDgyLjEzODUgMzM3Ljg5MiA3OS40MDQ5SDMzNy45MzdaTTMyNS4zNDQgNzUuODE5OEMzMjUuMzQ0IDczLjEzMSAzMjcuOTg4IDcyLjY4MjkgMzMxLjE3IDcyLjI3OTVDMzMzLjg1OSA3MS45MjEgMzM2LjMyNCA3MS42MDczIDMzNy4zMSA3MC4xMjg1VjczLjcxMzZDMzM3LjMxIDc3LjExOTQgMzM0LjM1MiA3OS4zNjAxIDMzMC40NTMgNzkuMzYwMUMzMjYuNTU0IDc5LjM2MDEgMzI1LjM0NCA3OC4wNjA1IDMyNS4zNDQgNzUuODY0NlY3NS44MTk4Wk0zNTAuNjE5IDEwOS41MkgzNDMuNjczTDMzMi43ODMgMTIwLjYzM1Y5OC45NDM2SDMyNy4wOTJWMTM1LjEwOEgzMzIuNzgzVjEyNy4zNTVMMzM3LjM5OSAxMjIuNzRMMzQ1LjI0MiAxMzUuMTUzSDM1MS44NzRMMzQxLjM0MyAxMTguNzk2TDM1MC42MTkgMTA5LjU2NFYxMDkuNTJaTTMxNi4yNDcgMTEzLjQ2M0MzMTQuNjc5IDExMC42NCAzMTEuNDA3IDEwOC43NTggMzA3LjQxOSAxMDguNzU4QzMwMC42MDcgMTA4Ljc1OCAyOTUuNjc4IDExNC4xOCAyOTUuNjc4IDEyMS43OTlDMjk1LjY3OCAxMjkuNDE3IDMwMC42MDcgMTM0LjcwNSAzMDcuNDY0IDEzNC43MDVDMzE0LjMyIDEzNC43MDUgMzEzLjk2MiAxMzMuMTgxIDMxNS42MiAxMzAuNzE2VjEzNC4zNDZDMzE1LjYyIDEzOC4yIDMxMy4yNDUgMTQwLjg4OSAzMDguNzE4IDE0MC44ODlDMzA0LjE5MiAxNDAuODg5IDMwMi4zNTUgMTM4Ljk2MiAzMDIuMzU1IDEzNi41NDJIMjk2LjY2NEMyOTYuNjY0IDE0Mi4wNTQgMzAxLjU5MyAxNDUuNTA1IDMwOC43MTggMTQ1LjUwNUMzMTUuODQ0IDE0NS41MDUgMzIxLjI2NiAxNDEuMDY4IDMyMS4yNjYgMTM0LjMwMlYxMDkuNTJIMzE2Ljc0TDMxNi4yNDcgMTEzLjQ2M1pNMzA4LjUzOSAxMjkuOTFDMzA0LjM3MiAxMjkuOTEgMzAxLjU0OCAxMjYuNjM4IDMwMS41NDggMTIxLjc1NEMzMDEuNTQ4IDExNi44NjkgMzA0LjQxNiAxMTMuNTUzIDMwOC41MzkgMTEzLjU1M0MzMTIuNjYyIDExMy41NTMgMzE1LjU3NSAxMTYuODY5IDMxNS41NzUgMTIxLjcwOUMzMTUuNTc1IDEyNi41NDkgMzEyLjY2MiAxMjkuOTEgMzA4LjUzOSAxMjkuOTFaTTQwMy4wNTEgNDguOTc2NUgzOTcuMzZWNTcuNzE1MUgzOTIuODc4VjYyLjU1NUgzOTcuMzZWNzUuNDYxM0MzOTcuMzYgODAuNTI1MiA0MDAuMzYyIDgzLjI1ODkgNDA1Ljg3NCA4My4yNTg5SDQwOS4xNDZWNzguNDE5SDQwNi4yMzNDNDA0LjEyNyA3OC40MTkgNDAzLjAwNiA3Ny4yMDkgNDAzLjAwNiA3NS4wNThWNjIuNTEwMkg0MDkuNTk0VjU3LjY3MDNINDAzLjAwNlY0OC45MzE3TDQwMy4wNTEgNDguOTc2NVpNMzY1LjU4NyAxMjguMzQxTDM1OC4xMDMgMTA5LjQ3NUgzNTEuOTE5TDM2Mi41ODQgMTM1LjAxOUgzNjguNUwzNzkuMTY1IDEwOS40NzVIMzcyLjk4MUwzNjUuNTQyIDEyOC4zNDFIMzY1LjU4N1pNMjY4LjM0MSA3OC40NjM4SDI2NS40MjlDMjYzLjMyMiA3OC40NjM4IDI2Mi4yMDIgNzcuMjUzOCAyNjIuMjAyIDc1LjEwMjhWNjIuNTU1SDI2OC43OVY1Ny43MTUxSDI2Mi4yMDJWNDguOTc2NUgyNTYuNTExVjU3LjcxNTFIMjUyLjAyOVY2Mi41NTVIMjU2LjUxMVY3NS40NjEzQzI1Ni41MTEgODAuNTI1MiAyNTkuNTEzIDgzLjI1ODkgMjY1LjAyNSA4My4yNTg5SDI2OC4yOTdWNzguNDE5TDI2OC4zNDEgNzguNDYzOFpNNDQxLjUwMSAxMDAuNzgxSDQzNS44MVYxMDkuNTJINDMxLjMyOFYxMTQuMzZINDM1LjgxVjEyNy4yNjZDNDM1LjgxIDEzMi4zMyA0MzguODEyIDEzNS4wNjMgNDQ0LjMyNCAxMzUuMDYzSDQ0Ny41OTZWMTMwLjIyNEg0NDQuNjgzQzQ0Mi41NzcgMTMwLjIyNCA0NDEuNDU2IDEyOS4wMTQgNDQxLjQ1NiAxMjYuODYzVjExNC4zMTVINDQ4LjA0NFYxMDkuNDc1SDQ0MS40NTZWMTAwLjczNkw0NDEuNTAxIDEwMC43ODFaTTIyNC45NjIgMTA4LjcxM0MyMjEuMzMyIDEwOC43MTMgMjE4LjMyOSAxMTAuMjgxIDIxNi40OTIgMTEyLjc5MVY5OC44NTRIMjEwLjgwMVYxMzUuMDE5SDIxNS4zNzJMMjE1LjkwOSAxMzAuNDkyQzIxNy41MjMgMTMzLjcxOSAyMjAuODg0IDEzNS43MzYgMjI0LjkxNyAxMzUuNzM2QzIzMS43MjkgMTM1LjczNiAyMzYuNDc5IDEyOS45OTkgMjM2LjQ3OSAxMjIuMDY3QzIzNi40NzkgMTE0LjEzNSAyMzEuNzI5IDEwOC42NjggMjI0Ljk2MiAxMDguNjY4VjEwOC43MTNaTTIzMC42NTMgMTIyLjE1N0MyMzAuNjUzIDEyNy4zNTUgMjI3Ljg3NSAxMzAuOTg1IDIyMy42NjIgMTMwLjk4NUMyMTkuNDUgMTMwLjk4NSAyMTYuNDkyIDEyNy4yNjYgMjE2LjQ5MiAxMjIuMDIzQzIxNi40OTIgMTE2Ljc3OSAyMTkuNTM5IDExMy41OTggMjIzLjY2MiAxMTMuNTk4QzIyNy43ODUgMTEzLjU5OCAyMzAuNjUzIDExNy4xMzggMjMwLjY1MyAxMjIuMjAyVjEyMi4xNTdaTTI1MS4wODggMTI5LjE0OEwyNDMuNjQ5IDEwOS41MkgyMzcuNTFMMjQ3LjYzOCAxMzUuMDYzSDI0OC43MTNMMjQ1LjA4MyAxNDQuMzRMMjUwLjQ2MSAxNDUuNTk1TDI2NC42MjIgMTA5LjUySDI1OC43MDZMMjUxLjA0MyAxMjkuMTQ4SDI1MS4wODhaTTI1MC45OTkgODMuMjU4OUwyNDAuNDY3IDY2LjkwMTlMMjQ5Ljc0NCA1Ny42NzAzSDI0Mi43OThMMjMxLjkwOCA2OC43ODQxVjQ3LjA5NDNIMjI2LjIxN1Y4My4yNTg5SDIzMS45MDhWNzUuNTA2MUwyMzYuNTI0IDcwLjg5MDNMMjQ0LjM2NiA4My4zMDM3SDI1MC45OTlWODMuMjU4OVpNMjg0LjIwNSA1Ni45NTMzQzI3Ni43MjIgNTYuOTUzMyAyNzEuMDc1IDYxLjkyNzYgMjcxLjA3NSA3MC4yNjI5QzI3MS4wNzUgNzguNTk4MyAyNzUuOTE1IDg0LjAyMDcgMjg0LjIwNSA4NC4wMjA3QzI5Mi40OTYgODQuMDIwNyAyOTcuMjkxIDc4LjkxMiAyOTcuMjkxIDcwLjI2MjlDMjk3LjI5MSA2MS42MTM5IDI5Mi40NTEgNTYuOTUzMyAyODQuMjA1IDU2Ljk1MzNaTTI4NC4yMDUgNzkuMTM2QzI3OS45OTMgNzkuMTM2IDI3Ni44NTYgNzUuODY0NiAyNzYuODU2IDcwLjI2MjlDMjc2Ljg1NiA2NC42NjEyIDI3OS43NjkgNjEuODM4IDI4NC4yMDUgNjEuODM4QzI4OC42NDIgNjEuODM4IDI5MS40NjUgNjUuMTk5IDI5MS40NjUgNzAuMjYyOUMyOTEuNDY1IDc1LjMyNjkgMjg4Ljc3NiA3OS4xMzYgMjg0LjIwNSA3OS4xMzZaTTQwMy42MzQgMTI5LjUwN1YxMTcuOTQ1QzQwMy42MzQgMTEyLjQ3NyAzOTkuNTExIDEwOC43MTMgMzkyLjkyMyAxMDguNzEzQzM4Ni4zMzYgMTA4LjcxMyAzODEuNDk2IDExMi40NzcgMzgwLjk1OCAxMTcuOUgzODYuNjk0QzM4Ny4wNTMgMTE1LjI1NiAzODkuNTE3IDExMy40MTggMzkyLjgzNCAxMTMuNDE4QzM5Ni4xNSAxMTMuNDE4IDM5OC4wMzIgMTE1LjA3NyAzOTguMDc3IDExNy41ODZDMzk4LjAzMiAxMTkuNjAzIDM5NS4xNjQgMTE5LjczNyAzOTEuMzEgMTIwLjE4NUMzODYuMzM2IDEyMC43NjggMzgwLjQyIDEyMi4wMjMgMzgwLjM3NSAxMjcuOTgzQzM4MC4zMzEgMTMyLjczMyAzODQuMTg1IDEzNS42MDEgMzkwLjA1NSAxMzUuNjAxQzM5NS45MjYgMTM1LjYwMSAzOTcuMTggMTMzLjk0MyAzOTguNzA0IDEzMS4yMDlDMzk4Ljc0OSAxMzEuNTIzIDM5OC44MzkgMTMxLjgzNyAzOTguOTI4IDEzMi4wNjFDMzk5LjM3NiAxMzMuOTg4IDQwMC45NDUgMTM1LjA2MyA0MDMuNTQ0IDEzNS4wNjNINDA2LjIzM1YxMzAuNjI3SDQwNC44NDRDNDAzLjk5MiAxMzAuNjI3IDQwMy41ODkgMTMwLjIyNCA0MDMuNTg5IDEyOS41MDdINDAzLjYzNFpNMzk4LjEyMiAxMjUuNDczQzM5OC4xMjIgMTI4Ljg3OSAzOTUuMTY0IDEzMS4xMiAzOTEuMjY1IDEzMS4xMkMzODcuMzY2IDEzMS4xMiAzODYuMTU2IDEyOS44MiAzODYuMTU2IDEyNy41OEMzODYuMTU2IDEyNS4zMzkgMzg4LjggMTI0LjQ0MyAzOTEuOTgyIDEyNC4wMzlDMzk0LjY3MSAxMjMuNjgxIDM5Ny4xMzYgMTIzLjM2NyAzOTguMTIyIDEyMS44ODhWMTI1LjQ3M1pNNDI0LjMzOCA5OC43MTk2QzQyMi4yNzYgOTguNzE5NiA0MjAuNjYzIDEwMC4yODggNDIwLjY2MyAxMDIuMzk0QzQyMC42NjMgMTA0LjUwMSA0MjIuMTg2IDEwNi4xMTQgNDI0LjMzOCAxMDYuMTE0QzQyNi40ODkgMTA2LjExNCA0MjguMDEyIDEwNC40NTYgNDI4LjAxMiAxMDIuMzk0QzQyOC4wMTIgMTAwLjMzMyA0MjYuNDQ0IDk4LjcxOTYgNDI0LjMzOCA5OC43MTk2Wk0yODYuMjY3IDExMy40NjNDMjg0LjY5OCAxMTAuNjQgMjgxLjQyNyAxMDguNzU4IDI3Ny40MzkgMTA4Ljc1OEMyNzAuNjI3IDEwOC43NTggMjY1LjY5NyAxMTQuMTggMjY1LjY5NyAxMjEuNzk5QzI2NS42OTcgMTI5LjQxNyAyNzAuNjI3IDEzNC43MDUgMjc3LjQ4MyAxMzQuNzA1QzI4NC4zNCAxMzQuNzA1IDI4My45ODEgMTMzLjE4MSAyODUuNjM5IDEzMC43MTZWMTM0LjM0NkMyODUuNjM5IDEzOC4yIDI4My4yNjQgMTQwLjg4OSAyNzguNzM4IDE0MC44ODlDMjc0LjIxMiAxNDAuODg5IDI3Mi4zNzUgMTM4Ljk2MiAyNzIuMzc1IDEzNi41NDJIMjY2LjY4M0MyNjYuNjgzIDE0Mi4wNTQgMjcxLjYxMyAxNDUuNTA1IDI3OC43MzggMTQ1LjUwNUMyODUuODY0IDE0NS41MDUgMjkxLjI4NiAxNDEuMDY4IDI5MS4yODYgMTM0LjMwMlYxMDkuNTJIMjg2Ljc2TDI4Ni4yNjcgMTEzLjQ2M1pNMjc4LjYwNCAxMjkuOTFDMjc0LjQzNiAxMjkuOTEgMjcxLjYxMyAxMjYuNjM4IDI3MS42MTMgMTIxLjc1NEMyNzEuNjEzIDExNi44NjkgMjc0LjQ4MSAxMTMuNTUzIDI3OC42MDQgMTEzLjU1M0MyODIuNzI3IDExMy41NTMgMjg1LjYzOSAxMTYuODY5IDI4NS42MzkgMTIxLjcwOUMyODUuNjM5IDEyNi41NDkgMjgyLjcyNyAxMjkuOTEgMjc4LjYwNCAxMjkuOTFaIi8+PHBhdGggZD0iTTQ1LjYxOTggNzYuMDQ0M0w3Ljg4NjcyIDkzLjc5MDRWMTEwLjEwM0w0NS42NjQ2IDkyLjMxMTZMODMuNDQyNCAxMTAuMTAzVjkzLjc5MDRMNDUuNzA5NCA3Ni4wNDQzSDQ1LjYxOThaTTcuODg2NzIgMTM1LjA2NEg4My40NDI0VjEyMC4zMkg3Ljg4NjcyVjEzNS4wNjRaTTQyLjk3NTggNTAuMjc2NEMzMy44Nzg2IDUzLjgxNjcgMjUuMDA1NSA1NC40ODg5IDE2LjYyNTQgNTIuMTU4NkMxMi41NDczIDUxLjAzODMgOS41NDQ4MiA0OS40MjUgNy44ODY3MiA0OC40MzkxVjY1LjI4OUMxMi43MjY2IDY3LjE3MTIgMTkuMTM0OSA2OC43ODQ1IDI2LjcwODQgNjguNzg0NUMzNC4yODE5IDY4Ljc4NDUgNDAuNDIxNCA2Ny42MTkzIDQ4LjM1MzQgNjQuNTI3MkM1Ny40NTA2IDYwLjk4NjkgNjYuMzIzNiA2MC4zMTQ3IDc0LjcwMzggNjIuNjQ1Qzc4Ljc4MTggNjMuNzY1MyA4MS43ODQzIDY1LjM3ODYgODMuNDQyNCA2Ni4zNjQ1VjQ5LjUxNDZDNzQuNDc5NyA0Ni4wNjQgNjAuMzE4NiA0My41MDk2IDQyLjk3NTggNTAuMjc2NFoiLz48L3N2Zz4=");
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: contain;
+}
+.swagger-ui .topbar .download-url-wrapper { display: none; }
+/* Swagger 5.3x adds a dark-mode toggle in the topbar; the DIBK header has no such
+   control and this skin is light-only, so drop it. */
+.swagger-ui .topbar .dark-mode-toggle { display: none; }
+
+/* -- Title block -- */
+.swagger-ui .info .title { color: var(--dibk-navy); }
+.swagger-ui .info .title small { background: var(--dibk-navy); }
+.swagger-ui .info a { color: var(--dibk-navy); }
+.swagger-ui a { color: var(--dibk-navy); }
+
+/* Servers / authorize bar: flat, no shadow. */
+.swagger-ui .scheme-container {
+  background: #fff;
+  box-shadow: none;
+  border-bottom: 1px solid var(--dibk-surface-grey);
+}
+
+/* -- Operation blocks as flat DIBK cards: no border, no shadow, pale tint per method. -- */
+.swagger-ui .opblock-tag {
+  border-bottom: 1px solid var(--dibk-surface-grey);
+  color: var(--dibk-navy);
+  font-weight: 500;
+}
+.swagger-ui .opblock {
+  border: 0;
+  box-shadow: none;
+  margin: 0 0 12px 0;
+}
+.swagger-ui .opblock .opblock-summary { border: 0; }
+.swagger-ui .opblock.opblock-get { background: var(--dibk-surface-blue); }
+.swagger-ui .opblock.opblock-post { background: var(--dibk-surface-green); }
+.swagger-ui .opblock.opblock-delete { background: var(--dibk-surface-orange); }
+.swagger-ui .opblock.opblock-put,
+.swagger-ui .opblock.opblock-patch { background: var(--dibk-surface-grey); }
+.swagger-ui .opblock.opblock-get .opblock-summary,
+.swagger-ui .opblock.opblock-post .opblock-summary,
+.swagger-ui .opblock.opblock-delete .opblock-summary,
+.swagger-ui .opblock.opblock-put .opblock-summary,
+.swagger-ui .opblock.opblock-patch .opblock-summary { border-color: transparent; }
+
+/* Method badge: flat navy, square (the card tint carries the method identity).
+   Swagger's per-method rule (.opblock.opblock-get .opblock-summary-method) outranks
+   a plain .opblock descendant selector, so set the navy per method at matching
+   specificity and let source order (this sheet loads last) decide the tie. */
+.swagger-ui .opblock .opblock-summary-method {
+  font-weight: 500;
+  box-shadow: none;
+}
+.swagger-ui .opblock.opblock-get .opblock-summary-method,
+.swagger-ui .opblock.opblock-post .opblock-summary-method,
+.swagger-ui .opblock.opblock-put .opblock-summary-method,
+.swagger-ui .opblock.opblock-patch .opblock-summary-method,
+.swagger-ui .opblock.opblock-delete .opblock-summary-method {
+  background: var(--dibk-navy);
+}
+
+/* -- Buttons -- */
+.swagger-ui .btn { box-shadow: none; }
+.swagger-ui .btn.authorize { color: var(--dibk-navy); border-color: var(--dibk-navy); }
+.swagger-ui .btn.authorize svg { fill: var(--dibk-navy); }
+.swagger-ui .btn.execute { background: var(--dibk-navy); border-color: var(--dibk-navy); color: #fff; }
+
+/* -- Models / schemas -- */
+.swagger-ui section.models { border: 0; background: var(--dibk-surface-grey); }
+.swagger-ui section.models.is-open h4 { border-bottom: 1px solid #fff; }
+.swagger-ui section.models .model-container { background: #fff; }
+.swagger-ui .model-box { background: var(--dibk-surface-grey); }
+
+/* Focus ring matches the brand. */
+.swagger-ui input:focus-visible,
+.swagger-ui select:focus-visible,
+.swagger-ui textarea:focus-visible,
+.swagger-ui .btn:focus-visible {
+  outline: 2px solid var(--dibk-navy);
+  outline-offset: 2px;
+}

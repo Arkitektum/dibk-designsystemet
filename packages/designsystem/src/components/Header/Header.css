@@ -1,0 +1,166 @@
+.dibk-header {
+  width: 100%;
+  background: var(--dibk-surface-blue, #ebf4fa);
+  color: var(--ds-color-accent-base-default, #003045);
+}
+
+.dibk-header__inner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  box-sizing: border-box;
+  min-height: 72px;
+  max-width: var(--dibk-container-max, 1400px);
+  margin: 0 auto;
+  padding: 12px var(--dibk-container-pad, 2rem);
+}
+
+.dibk-header__brand {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.dibk-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-left: auto;
+}
+
+/* Shortcuts reuse the flat .dibk-header__btn look (matching Søk/Meny); as links
+   they'd carry a default underline, so suppress it (hover underline still
+   applies via .dibk-header__btn:hover). They also live in the menu, so collapse
+   them when space is tight. */
+.dibk-header__shortcut {
+  text-decoration: none;
+}
+
+/* Both logo lockups render in the brand link; the full wordmark shows by default
+   and the roofline mark stays hidden until tier 2 swaps them. Two-class selectors
+   throughout so these beat the base .dibk-logo / .dibk-header__btn display rules
+   regardless of stylesheet order. */
+.dibk-logo.dibk-header__logo--mark {
+  display: none;
+}
+
+/* The header collapses in two tiers as width drops. The breakpoints are literal
+   rem values (custom properties can't be used in @media conditions); treat these
+   two as the header's documented collapse scale. The brand mark always stays in
+   the bar - the title truncates with an ellipsis rather than the logo being
+   dropped for room.
+
+   Tier 1 (<= 72rem): drop the shortcut links first - they duplicate menu entries,
+   and the full lockup + title + shortcuts + toggle stop fitting around here. */
+@media (max-width: 72rem) {
+  .dibk-header__shortcut.dibk-header__btn {
+    display: none;
+  }
+}
+
+/* Tier 2 (<= 48rem): compact brand + toggles - the full wordmark gives way to the
+   roofline mark so the app title beside it has room, and the menu/search toggles
+   drop their text label to the icon alone (the buttons keep an aria-label). */
+@media (max-width: 48rem) {
+  .dibk-logo.dibk-header__logo--full {
+    display: none;
+  }
+  .dibk-logo.dibk-header__logo--mark {
+    display: block;
+    height: 36px;
+  }
+  .dibk-header__btn-label {
+    display: none;
+  }
+}
+
+/* The toggles are Designsystemet tertiary Buttons; these rules strip DS's button
+   chrome back to a flat DIBK text+icon toggle (unlayered, so they win over
+   @layer ds). */
+.dibk-header__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-block-size: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 1.125rem; /* 18px */
+  font-weight: var(--ds-font-weight-medium);
+  /* DS Button resets tracking to normal; restore the DIBK body tightening. */
+  letter-spacing: -0.01em;
+  cursor: pointer;
+}
+
+.dibk-header__btn:hover {
+  background: transparent;
+  text-decoration: underline;
+}
+
+.dibk-header__btn:focus-visible {
+  outline: 2px solid var(--ds-color-accent-base-default, #003045);
+  outline-offset: 4px;
+}
+
+/* Lukk X glyph (the toggle's open state): 24x24, 2px bars at +/-45deg; the
+   whole glyph spins half a turn on hover, 300ms. */
+.dibk-xglyph {
+  position: relative;
+  display: block;
+  width: 24px;
+  height: 24px;
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dibk-xglyph__bar {
+  position: absolute;
+  top: calc(50% - 1px);
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+}
+
+.dibk-xglyph__bar--a {
+  transform: rotate(45deg);
+}
+
+.dibk-xglyph__bar--b {
+  transform: rotate(-45deg);
+}
+
+.dibk-header__btn:hover .dibk-xglyph {
+  transform: rotate(180deg);
+}
+
+/* Meny burger: on hover the outer bars travel through the centre bar and swap
+   places (300ms; 12px = the top-to-bottom bar distance). */
+.dibk-burger {
+  display: block;
+}
+
+.dibk-burger__bar--top,
+.dibk-burger__bar--bottom {
+  transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dibk-header__btn:hover .dibk-burger__bar--top {
+  transform: translateY(12px);
+}
+
+.dibk-header__btn:hover .dibk-burger__bar--bottom {
+  transform: translateY(-12px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dibk-burger__bar--top,
+  .dibk-burger__bar--bottom,
+  .dibk-xglyph {
+    transition: none;
+  }
+}

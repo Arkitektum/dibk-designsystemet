@@ -1,0 +1,15 @@
+.dibk-logo {
+  display: block;
+  color: var(--ds-color-accent-base-default, #003045);
+}
+
+/* Full lockup: aspect ratio ~490:106. Height drives the size. */
+.dibk-logo--full {
+  height: 38px;
+  width: auto;
+}
+
+.dibk-logo--mark {
+  height: 48px;
+  width: auto;
+}

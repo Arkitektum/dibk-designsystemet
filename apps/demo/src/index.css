@@ -1,0 +1,267 @@
+/* Demo-only layout scaffolding. The components bring their own styling, and
+   DibkAppShell (via the shared DemoShell wrapper) owns the page frame and the
+   page width: every page's content renders inside the shell's canonical
+   container, so it lines up with the header and footer at every viewport width.
+   This file only handles spacing WITHIN that content column - no max-widths or
+   side gutters for the page itself, and nothing here paints a background on a
+   container box. */
+
+:root {
+  --demo-pale-blue: #ebf4fa;
+  --demo-navy: #003045;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--demo-navy);
+  background: #fff;
+}
+
+.demo-hero {
+  padding: 1rem 0 2rem;
+}
+
+.demo-hero__title {
+  color: var(--demo-navy);
+  max-width: 60rem;
+  /* Size comes from data-size="md" on the Heading (~36px). */
+}
+
+/* Pale-blue search panel - background comes from <Card data-dibk-color="blue">.
+   A child of the shell's container, so the band spans exactly the content
+   column; the padding here is the panel's own inset. */
+.demo-search-panel {
+  padding: 2.5rem 2rem 3rem;
+}
+
+.demo-search {
+  max-width: 40rem;
+  /* Counter the widget's panel padding so the field's left edge aligns with the
+     icon-link list below. */
+  margin-inline-start: calc(-1 * var(--ds-size-5));
+  margin-bottom: 1.25rem;
+}
+
+.demo-search-hint {
+  color: var(--demo-navy);
+}
+
+.demo-search-hint a {
+  color: var(--demo-navy);
+  font-weight: 600;
+}
+
+.demo-section {
+  padding: 2rem 0;
+}
+
+/* Each result: a full-width colored category banner, then a big navy title link
+   and snippet. No card fill or border. */
+.demo-result__banner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+}
+
+/* ---- Komponenter (component catalog page) ---- */
+.komp-page {
+  /* Narrower reading column, centered within the shell's content column. */
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.komp-page__title {
+  margin: 1rem 0 0.5rem;
+}
+
+.komp-page__intro {
+  margin: 0 0 2rem;
+  max-width: 48rem;
+}
+
+.komp-section {
+  margin: 0 0 2rem;
+}
+
+.komp-section__title {
+  margin: 0 0 0.5rem;
+  color: var(--ds-color-neutral-text-subtle, #4a4541);
+}
+
+.komp-demo {
+  border: 1px solid var(--ds-color-neutral-border-subtle, #d7d4d1);
+  border-radius: 0;
+  background: #fff;
+  padding: 1.5rem;
+}
+
+.komp-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.komp-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.komp-logo-row {
+  color: #003045;
+}
+
+.komp-divider-heading {
+  margin: 3.5rem 0 0.5rem;
+  padding-top: 2rem;
+  border-top: 2px solid #003045;
+}
+
+.komp-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 1rem;
+  /* Neutral backdrop so the white and grey cards are distinguishable in the demo. */
+  background: #e6e3df;
+  padding: 1rem;
+}
+
+.komp-icon-gallery {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+  gap: 1rem;
+}
+
+.komp-icon-gallery__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  color: #003045;
+  font-size: 0.85rem;
+  word-break: break-word;
+}
+
+.saker {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Toolbar: search + filters */
+.saker-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 1rem;
+  margin: 1.5rem 0 0.25rem;
+}
+
+/* Tables */
+.saker-table {
+  width: 100%;
+}
+
+/* Detail / profile headers */
+.saker-detail__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 800px) {
+}
+
+/* Pale-blue panels (the DIBK card surface) */
+.saker-card {
+  background: var(--demo-pale-blue);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Definition lists */
+.saker-facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.45rem 1.5rem;
+  margin: 0.75rem 0 0;
+}
+
+/* Timeline */
+.saker-timeline {
+  position: relative;
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0 0 0 1.6rem;
+}
+
+/* Green "demos" panel on the homepage - background from <Card data-dibk-color="green">.
+   Inside the shell's container, like the blue search panel. */
+.demo-explore-panel {
+  margin-block: 2.5rem;
+  padding: 2.5rem 2rem;
+}
+
+.demo-explore-panel__inner {
+  max-width: 56rem;
+}
+
+.demo-explore-panel__title {
+  margin: 0 0 0.5rem;
+  color: var(--demo-navy);
+}
+
+.demo-explore-panel__lead {
+  margin: 0 0 1.25rem;
+  color: var(--demo-navy);
+}
+
+/* Information page: the lead paragraph under the page title, and the card grid
+   describing what the package ships. */
+.demo-hero__lead {
+  max-width: 48rem;
+  margin: 1rem 0 0;
+}
+
+.demo-info__heading {
+  margin: 0 0 0.75rem;
+  color: var(--demo-navy);
+}
+
+.demo-info__lead {
+  max-width: 48rem;
+  margin: 0 0 1.5rem;
+}
+
+.demo-entries {
+  width: 100%;
+}
+
+/* Shrink the specifier column to its content: width:1% collapses it to the
+   minimum the nowrap below allows, leaving the rest of the width to the prose. */
+.demo-entries :is(th, td):first-child {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.demo-entries__specifier {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  font-size: 0.8125rem;
+}
+
+.demo-entries__note {
+  max-width: 48rem;
+  margin: 1rem 0 0;
+}
+

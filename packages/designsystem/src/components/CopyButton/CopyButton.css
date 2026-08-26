@@ -1,0 +1,76 @@
+/* Square navy "Kopier" button (tertiary outline that fills on hover); flips to a
+   green "✓ Kopiert!" confirmation. Sizes off the DS scale, colours off tokens. */
+.dibk-copybtn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-size-2);
+  flex: none;
+  font: inherit;
+  font-size: var(--ds-font-size-2);
+  font-weight: var(--ds-font-weight-medium);
+  line-height: 1;
+  color: var(--ds-color-accent-base-default);
+  background: transparent;
+  border: 1px solid var(--ds-color-accent-base-default);
+  border-radius: 0;
+  padding: var(--ds-size-2) var(--ds-size-3);
+  cursor: pointer;
+  transition:
+    background-color 0.18s ease,
+    color 0.18s ease,
+    border-color 0.18s ease;
+}
+.dibk-copybtn:hover {
+  background: var(--ds-color-accent-base-default);
+  color: var(--ds-color-neutral-background-default);
+}
+.dibk-copybtn:focus-visible {
+  outline: 2px solid var(--ds-color-accent-base-default);
+  outline-offset: 3px;
+}
+.dibk-copybtn[data-done="1"] {
+  color: var(--ds-color-success-text-subtle);
+  border-color: var(--ds-color-success-text-subtle);
+  background: transparent;
+}
+.dibk-copybtn__ico {
+  display: inline-flex;
+  font-size: 0.85em;
+}
+.dibk-copybtn__ico:empty {
+  display: none;
+}
+
+/* Icon-only variant: muted at rest, navy on hover, green ✓ after a copy. The
+   44px-ish hit area comes from padding, not glyph size. */
+.dibk-copyiconbtn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  padding: var(--ds-size-1);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ds-color-text-subtle);
+  cursor: pointer;
+  transition: color 0.18s ease;
+}
+.dibk-copyiconbtn:hover {
+  color: var(--ds-color-accent-base-default);
+}
+.dibk-copyiconbtn:focus-visible {
+  outline: 2px solid var(--ds-color-accent-base-default);
+  outline-offset: 2px;
+}
+.dibk-copyiconbtn[data-done="1"] {
+  color: var(--ds-color-text-subtle);
+}
+/* The ✓ inherits the button's font-size (set inline from the `size` prop), so
+   it scales with the clipboard glyph it replaces. */
+.dibk-copyiconbtn__done {
+  font-size: inherit;
+  line-height: 1;
+}
