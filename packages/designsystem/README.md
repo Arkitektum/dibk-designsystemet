@@ -371,5 +371,5 @@ needs configuring.
 The four granular CSS entries exist so an app that needs a different cascade can compose
 it; `styles.css` is the one to reach for otherwise.
 
-See `apps/storybook` for a component showcase and `apps/demo` for a runnable DIBK app
-built on this package.
+See `apps/demo` for a runnable app built on this package: an information page, a
+component catalog and a full example site.

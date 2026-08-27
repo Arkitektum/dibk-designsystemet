@@ -14,10 +14,9 @@ pnpm workspace (`packages/*`, `apps/*`):
   `@digdir/designsystemet-{react,css}` and `@fontsource/poppins` are peer dependencies,
   so the consuming app owns exactly one copy of each. Three JS entries: the barrel
   (`.`), the layout primitives (`./layout`) and the brand icons (`./icons`).
-- `apps/demo` (`@dibk/demo`) - runnable app (Vite). `#/` is an information page about
-  the design system; the examples are `#/nettsted` and `#/komponenter`. All example
-  content is invented.
-- `apps/storybook` (`@dibk/storybook`) - component showcase, DIBK theme applied.
+- `apps/demo` (`dibk-designsystemet-demo`) - runnable app (Vite). `#/` is an
+  information page about the design system; the examples are `#/nettsted` and
+  `#/komponenter`. All example content is invented.
 
 ## Commands
 
@@ -28,10 +27,9 @@ pnpm build                  # icons codegen + tsup + generated theme/styles/font
 pnpm theme                  # regenerate dist/theme.css only (after changing the brand color)
 pnpm icons                  # regenerate src/icons/ from svg/ only
 pnpm demo                   # demo app dev server
-pnpm storybook              # Storybook dev server
 ```
 
-Filtered builds: `pnpm --filter <name> build`. The apps alias each JS entry to its
+Filtered builds: `pnpm --filter <name> build`. The demo aliases each JS entry to its
 **source** so editing components hot-reloads without rebuilding the library. The aliases
 are anchored regexes (`/^dibk-designsystemet$/` and one per subpath): a bare string alias
 also swallows the subpaths, and anchoring leaves the CSS subpaths to resolve through the

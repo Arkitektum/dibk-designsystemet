@@ -18,7 +18,6 @@
     "theme": "pnpm --filter dibk-designsystemet theme",
     "dev": "pnpm --filter dibk-designsystemet dev",
     "types": "pnpm -r types",
-    "storybook": "pnpm --filter @dibk/storybook dev",
-    "demo": "pnpm --filter @dibk/demo dev"
+    "demo": "pnpm --filter dibk-designsystemet-demo dev"
   }
 }

@@ -10,9 +10,9 @@ brand icons, for use across DIBK apps. pnpm workspace.
   MegaMenu, IconLinkList, SectionHeader, FeedbackWidget, Logo). Ships the DIBK theme
   CSS, the layout primitives on a `/layout` subpath, and the brand icons on `/icons`.
   See its [README](packages/designsystem/README.md) for the consumer-facing docs.
-- `apps/storybook` (`@dibk/storybook`) - component showcase, DIBK theme applied.
-- `apps/demo` (`@dibk/demo`) - a runnable app. `#/` is an information page about the
-  design system: what it ships, how to install it, and links to the examples. The
+- `apps/demo` (`dibk-designsystemet-demo`) - a runnable app. `#/` is an information
+  page about the design system: what it ships, how to install it, and links to the
+  examples. The
   examples are `#/nettsted` (a full public-facing site) and `#/komponenter`
   (component catalog). Content in the examples is invented.
 
@@ -24,7 +24,6 @@ pnpm build          # build the library (icons codegen + tsup + generated CSS en
 pnpm theme          # regenerate dist/theme.css from the brand color only
 pnpm icons          # regenerate the icon components from svg/
 pnpm types          # typecheck every workspace project
-pnpm storybook      # component showcase on :6006
 pnpm demo           # demo page on Vite dev server
 ```
 

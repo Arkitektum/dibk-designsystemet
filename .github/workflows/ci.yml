@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# One deploy at a time. Don't cancel a running deploy, but do drop superseded
+# pull-request checks.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  verify:
+    name: Typecheck, build and lint the package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # pnpm comes from corepack, pinned by the packageManager field in the root
+      # package.json, so there is no separate action to keep in sync with it.
+      - run: corepack enable pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm types
+
+      - run: pnpm build
+
+      # Checks the published manifest and exports map. Pinned so a publint
+      # release cannot change what CI enforces without a commit here.
+      - run: npx --yes publint@0.3.24
+        working-directory: packages/designsystem
+
+  deploy:
+    name: Deploy the demo to GitHub Pages
+    needs: verify
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    # Job-level permissions replace the workflow-level block rather than merging
+    # with it, so contents:read has to be repeated here for actions/checkout.
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - run: corepack enable pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # The library first: the demo imports its generated CSS entries from dist/.
+      - run: pnpm build
+
+      # Pages serves a project site from /<repo>/, so the asset URLs need that
+      # prefix. It is passed here rather than set in vite.config.ts, which would
+      # also move the local dev server under the prefix for no reason.
+      - run: pnpm --filter dibk-designsystemet-demo build --base=/${{ github.event.repository.name }}/
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: apps/demo/dist
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
