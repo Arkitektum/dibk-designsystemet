@@ -38,6 +38,11 @@ jobs:
 
       # Checks the published manifest and exports map. Pinned so a publint
       # release cannot change what CI enforces without a commit here.
+      # The root build script covers the library only, so build the demo too:
+      # otherwise a pull request can break it and only fail once it reaches the
+      # deploy job on main.
+      - run: pnpm --filter dibk-designsystemet-demo build
+
       - run: npx --yes publint@0.3.24
         working-directory: packages/designsystem
 
@@ -81,4 +86,4 @@ jobs:
           path: apps/demo/dist
 
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
