@@ -1,0 +1,71 @@
+name: Publish
+
+# Authenticated with npm trusted publishing (OIDC), so there is no npm token here.
+# The npm side must match: trusted publisher = this repository, publish.yml and the
+# npm-publish environment.
+
+# Releases only: a release run always uses the workflow file from main.
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Publish to npmjs
+    runs-on: ubuntu-latest
+
+    # Carries the wait timer and the v* tag policy.
+    environment: npm-publish
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Node 24 bundles npm 11.x; trusted publishing needs npm >= 11.5.1.
+      #
+      # No registry-url on purpose: it makes setup-node write an .npmrc with
+      # _authToken=${NODE_AUTH_TOKEN}, which expands to empty when there is no
+      # token. npm then treats auth as configured, never starts the OIDC
+      # exchange, and publishing fails with ENEEDAUTH.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Check the release tag matches the package version
+        working-directory: packages/designsystem
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          version=$(node -p "require('./package.json').version")
+          if [ "$tag" != "$version" ]; then
+            echo "Release tag $tag does not match package version $version" >&2
+            exit 1
+          fi
+
+      - run: corepack enable pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm types
+
+      - run: pnpm build
+
+      - run: npx --yes publint@0.3.24
+        working-directory: packages/designsystem
+
+      # Prereleases go out as "next" so they don't become the default install.
+      - name: Publish
+        working-directory: packages/designsystem
+        run: |
+          version=$(node -p "require('./package.json').version")
+          case "$version" in
+            *-*) tag=next ;;
+            *)   tag=latest ;;
+          esac
+          echo "Publishing $version under dist-tag $tag"
+          npm publish --tag "$tag" --access public --provenance
