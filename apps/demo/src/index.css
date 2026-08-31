@@ -222,11 +222,6 @@ body {
 }
 
 .demo-explore-panel__title {
-  margin: 0 0 0.5rem;
-  color: var(--demo-navy);
-}
-
-.demo-explore-panel__lead {
   margin: 0 0 1.25rem;
   color: var(--demo-navy);
 }

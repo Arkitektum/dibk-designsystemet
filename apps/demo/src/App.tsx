@@ -73,10 +73,6 @@ export function App() {
           <Heading level={2} data-size="sm" className="demo-explore-panel__title">
             Se det i bruk
           </Heading>
-          <Paragraph className="demo-explore-panel__lead">
-            Apper vi har bygd for å vise hvordan det ser ut i praksis. Alt
-            innholdet i dem er funnet på.
-          </Paragraph>
           <DibkIconLinkList items={demoLinks} columns={1} />
         </div>
       </Card>
