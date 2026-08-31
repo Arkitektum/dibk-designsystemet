@@ -153,5 +153,8 @@ registry.
   if needed.
 - `@fontsource-variable/*` registers families with a " Variable" suffix (e.g. "Inter
   Variable"); static fonts (Poppins) use the plain name.
-- Published to **public npmjs** as `dibk-designsystemet`, unscoped, `UNLICENSED`.
+- Published to **public npmjs** as `dibk-designsystemet`, unscoped. Proprietary:
+  copyright DIBK, all rights reserved apart from an internal-use grant, see `LICENSE.md`.
+  The package ships its own copy at `packages/designsystem/LICENSE.md` (npm only picks up a
+  LICENSE from the package directory), so the two must stay identical.
 - Never publish without explicit approval from the user for that specific release.

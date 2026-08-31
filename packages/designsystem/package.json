@@ -2,7 +2,7 @@
   "name": "dibk-designsystemet",
   "version": "1.0.0-rc.1",
   "description": "DIBK design system: Designsystemet (Digdir) with DIBK theme, brand components and brand icons.",
-  "license": "UNLICENSED",
+  "license": "SEE LICENSE IN LICENSE.md",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Arkitektum/dibk-designsystemet.git"

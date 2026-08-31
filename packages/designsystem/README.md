@@ -353,6 +353,10 @@ else to configure.
 Reach for `styles.css`. The granular CSS entries are there for the rare app that needs to
 compose a different cascade.
 
+## License
+
+Copyright DIBK. All rights reserved. See `LICENSE.md`.
+
 Missing a component, or fighting one? Open an
 [issue](https://github.com/Arkitektum/dibk-designsystemet/issues).
 

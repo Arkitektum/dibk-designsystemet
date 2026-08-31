@@ -137,6 +137,10 @@ Pages.
 Missing a component, or found one that fights you? Open an
 [issue](https://github.com/Arkitektum/dibk-designsystemet/issues).
 
+## License
+
+Copyright DIBK. All rights reserved. See [LICENSE.md](LICENSE.md).
+
 ## Publishing
 
 We publish to public npmjs as `dibk-designsystemet`, unscoped. `pnpm build` runs from
