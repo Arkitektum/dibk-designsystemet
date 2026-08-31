@@ -117,6 +117,16 @@ export function ComponentsPage() {
             et kort eksempel. DIBK-komponentene ligger nederst.
           </Paragraph>
 
+          <Alert data-color="info" className="komp-disclaimer">
+            <Heading level={2} data-size="xs">
+              Dette er en demoside for et designsystem
+            </Heading>
+            <Paragraph>
+              Eksempelteksten i komponentene er oppdiktet og er ikke veiledning.
+              For faktisk informasjon om byggesak, se <a href="https://dibk.no">dibk.no</a>.
+            </Paragraph>
+          </Alert>
+
           {/* ---- Designsystemet components, alphabetical ---- */}
 
           <Demo name="Alert">
@@ -125,27 +135,27 @@ export function ComponentsPage() {
                 <Heading level={3} data-size="2xs">
                   Nabovarsel er sendt
                 </Heading>
-                <Paragraph>Naboene har tre uker på seg til å uttale seg.</Paragraph>
+                <Paragraph>Varselet er sendt til alle mottakerne i listen.</Paragraph>
               </Alert>
               <Alert data-color="warning">
                 <Heading level={3} data-size="2xs">
                   Mangler dokumentasjon
                 </Heading>
                 <Paragraph>
-                  Søknaden kan ikke behandles før nabovarsel er lastet opp.
+                  Ett eller flere av vedleggene er ikke lastet opp ennå.
                 </Paragraph>
               </Alert>
               <Alert data-color="success">
                 <Heading level={3} data-size="2xs">
                   Søknaden er registrert
                 </Heading>
-                <Paragraph>Du får svar innen tolv uker.</Paragraph>
+                <Paragraph>Du får en bekreftelse på e-post.</Paragraph>
               </Alert>
               <Alert data-color="danger">
                 <Heading level={3} data-size="2xs">
                   Søknaden ble avvist
                 </Heading>
-                <Paragraph>Tiltaket er i strid med reguleringsplanen.</Paragraph>
+                <Paragraph>Begrunnelsen ligger i saken, sammen med hva som må rettes.</Paragraph>
               </Alert>
             </div>
           </Demo>
@@ -187,7 +197,7 @@ export function ComponentsPage() {
                   <Breadcrumbs.Link href="#">Regelverk</Breadcrumbs.Link>
                 </Breadcrumbs.Item>
                 <Breadcrumbs.Item>
-                  <Breadcrumbs.Link href="#">TEK17</Breadcrumbs.Link>
+                  <Breadcrumbs.Link href="#">Underside</Breadcrumbs.Link>
                 </Breadcrumbs.Item>
               </Breadcrumbs.List>
             </Breadcrumbs>
@@ -227,8 +237,7 @@ export function ComponentsPage() {
                   </Card.Block>
                   <Card.Block>
                     <Paragraph>
-                      Bruk dette skjemaet når du skal søke om tillatelse etter plan-
-                      og bygningsloven § 20-3.
+                      Fyll ut skjemaet, legg ved dokumentasjonen og send inn.
                     </Paragraph>
                   </Card.Block>
                   <Card.Block>
@@ -286,11 +295,11 @@ export function ComponentsPage() {
               <Details.Summary>Når må jeg sende nabovarsel?</Details.Summary>
               <Details.Content>
                 <Paragraph>
-                  Du må varsle naboer og gjenboere før du sender byggesøknad for de
-                  fleste tiltak som krever tillatelse.
+                  Oppdiktet svartekst uten faktiske regler. Den finnes for å gi
+                  trekkspillmenyen realistisk lengde.
                 </Paragraph>
                 <Paragraph>
-                  <a href="#">Les mer om nabovarsel</a>
+                  <a href="#">Slik ser en lenke i innholdet ut</a>
                 </Paragraph>
               </Details.Content>
             </Details>
@@ -298,8 +307,8 @@ export function ComponentsPage() {
               <Details.Summary>Hva koster det å søke?</Details.Summary>
               <Details.Content>
                 <Paragraph>
-                  Kommunen kan ta gebyr for å behandle byggesøknaden. Satsene varierer
-                  fra kommune til kommune.
+                  Oppdiktet svartekst. Panelet er lyseblått, og pilen står til
+                  høyre for overskriften.
                 </Paragraph>
               </Details.Content>
             </Details>
@@ -307,8 +316,8 @@ export function ComponentsPage() {
               <Details.Summary>Hvor lang er behandlingstiden?</Details.Summary>
               <Details.Content>
                 <Paragraph>
-                  Fristen avhenger av tiltakstype. For mange søknader er fristen tre
-                  eller tolv uker.
+                  Oppdiktet svartekst. Flere trekkspill etter hverandre får en
+                  luftig avstand mellom seg.
                 </Paragraph>
               </Details.Content>
             </Details>
@@ -384,7 +393,7 @@ export function ComponentsPage() {
           <Demo name="Field">
             <Field>
               <Label>Gårdsnummer</Label>
-              <Field.Description>Finnes på matrikkelbrevet.</Field.Description>
+              <Field.Description>Hjelpetekst som forklarer hva feltet skal inneholde.</Field.Description>
               <Input name="gnr" />
               <ValidationMessage>Gårdsnummer må fylles ut.</ValidationMessage>
             </Field>
@@ -405,7 +414,7 @@ export function ComponentsPage() {
           </Demo>
 
           <Demo name="Link">
-            <Link href="#">Les mer om byggteknisk forskrift (TEK17)</Link>
+            <Link href="#">Slik ser en lenke i innholdet ut</Link>
           </Demo>
 
           <Demo name="List">
@@ -455,8 +464,7 @@ export function ComponentsPage() {
               <Popover.Trigger variant="secondary">Hva betyr dette?</Popover.Trigger>
               <Popover>
                 <Paragraph>
-                  Ansvarsrett betyr at et foretak påtar seg ansvar for et fagområde i
-                  byggesaken.
+                  En kort forklaring av et begrep, i en boble som peker på knappen.
                 </Paragraph>
               </Popover>
             </Popover.TriggerContext>
@@ -498,9 +506,9 @@ export function ComponentsPage() {
               <Select.Option value="" disabled>
                 Velg kommune
               </Select.Option>
-              <Select.Option value="0301">Oslo</Select.Option>
-              <Select.Option value="4601">Bergen</Select.Option>
-              <Select.Option value="5001">Trondheim</Select.Option>
+              <Select.Option value="k1">Lilleby</Select.Option>
+              <Select.Option value="k2">Storeby</Select.Option>
+              <Select.Option value="k3">Midtdalen</Select.Option>
             </Select>
           </Demo>
 
@@ -526,9 +534,9 @@ export function ComponentsPage() {
               <Suggestion.Clear />
               <Suggestion.List>
                 <Suggestion.Empty>Ingen treff</Suggestion.Empty>
-                <Suggestion.Option value="Oslo">Oslo</Suggestion.Option>
-                <Suggestion.Option value="Bergen">Bergen</Suggestion.Option>
-                <Suggestion.Option value="Trondheim">Trondheim</Suggestion.Option>
+                <Suggestion.Option value="Lilleby">Lilleby</Suggestion.Option>
+                <Suggestion.Option value="Storeby">Storeby</Suggestion.Option>
+                <Suggestion.Option value="Midtdalen">Midtdalen</Suggestion.Option>
               </Suggestion.List>
             </Suggestion>
           </Demo>
@@ -647,8 +655,8 @@ export function ComponentsPage() {
 
           <Demo name="Paragraph">
             <Paragraph>
-              Direktoratet for byggkvalitet skal bidra til at det bygges sikre,
-              miljøvennlige og tilgjengelige bygninger.
+              Et avsnitt med brødtekst over et par linjer, så du ser
+              linjeavstanden og hvor tett bokstavene står.
             </Paragraph>
           </Demo>
 
@@ -689,7 +697,7 @@ export function ComponentsPage() {
             <DibkSectionHeader
               title="Kom i gang med byggeprosjektet"
               icon={<IconByggeEndre width={40} height={40} />}
-              description="Skal du bygge, rive eller endre? Finn ut om du må søke."
+              description="En ingress under overskriften, med ikonet til venstre og en skillelinje under."
             />
           </Demo>
 
@@ -743,13 +751,13 @@ export function ComponentsPage() {
 
           <Demo name="DibkCopyButton">
             <div className="komp-row">
-              <DibkCopyButton value="https://dibk.no" />
-              <DibkCopyIconButton value="https://dibk.no" ariaLabel="Kopier lenken" size={22} />
+              <DibkCopyButton value="https://example.com" />
+              <DibkCopyIconButton value="https://example.com" ariaLabel="Kopier lenken" size={22} />
             </div>
           </Demo>
 
           <Demo name="DibkCodeBlock">
-            <DibkCodeBlock label="Tilkoblingsadresse" value="https://eksempel.dibk.no/mcp" />
+            <DibkCodeBlock label="Tilkoblingsadresse" value="https://example.com/mcp" />
           </Demo>
 
           <Demo name="Ikoner (dibk-designsystemet/icons)">

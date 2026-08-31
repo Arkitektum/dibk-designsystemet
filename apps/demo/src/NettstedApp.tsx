@@ -88,12 +88,13 @@ export function NettstedApp() {
       <section className="demo-section">
         <Alert data-color="info">
           <Heading level={2} data-size="xs">
-            Dette er en demoside, ikke et ekte nettsted
+            Dette er en demoside for et designsystem
           </Heading>
           <Paragraph>
             Her er sidemalen, menyen og innholdskomponentene satt sammen til en
-            hel side. Tekstene er oppdiktet, og lenkene i det blå panelet går
-            ingen steder.
+            hel side. Tekstene er oppdiktet og er ikke veiledning, og lenkene i
+            det blå panelet går ingen steder. For faktisk informasjon om
+            byggesak, se <a href="https://dibk.no">dibk.no</a>.
           </Paragraph>
         </Alert>
       </section>
@@ -105,7 +106,7 @@ export function NettstedApp() {
           className="demo-hero__title"
           style={{ fontWeight: 300 }}
         >
-          Vi hjelper deg med å finne fram i regelverket for bygg og byggesak.
+          Slik ser en forside ut når den er satt sammen av komponentene.
         </Heading>
       </section>
 
