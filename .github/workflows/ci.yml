@@ -24,7 +24,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       # pnpm comes from corepack, pinned by the packageManager field in the root
       # package.json, so there is no separate action to keep in sync with it.
@@ -65,7 +65,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - run: corepack enable pnpm
 
