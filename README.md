@@ -1,16 +1,13 @@
 # DIBK design system
 
-We take [Designsystemet](https://designsystemet.no/), Digdir's Norwegian government design
-system, put the DIBK theme on it, add the brand components and icons that DIBK needs and
-Designsystemet doesn't have, and publish the lot as one npm package. The point is that a
-DIBK app installs one thing and looks like DIBK, instead of every team re-deriving the
-theme and rebuilding a header.
+Digdir's [Designsystemet](https://designsystemet.no/) with the DIBK theme applied, plus the
+brand components and icons that DIBK needs and Designsystemet doesn't have, published as
+one npm package. A DIBK app installs one thing and looks like DIBK, instead of every team
+re-deriving the theme and rebuilding a header.
 
 Live demo: <https://arkitektum.github.io/dibk-designsystemet/>
 
-This repo is a pnpm workspace with the library and a demo app in it. If you're building an
-app on the design system, start here; the [package
-README](packages/designsystem/README.md) has the full reference once you need it.
+This repo is a pnpm workspace holding the library and a demo app.
 
 ## Quick start
 
@@ -19,11 +16,12 @@ npm install dibk-designsystemet \
   react react-dom @digdir/designsystemet-react @digdir/designsystemet-css @fontsource/poppins
 ```
 
-Everything after the package name is a peer dependency, so your app owns one copy of React,
-of Designsystemet and of the font. Keep the two `@digdir/designsystemet-*` packages on the
-same version, npm won't tell you if they drift.
+Everything after the package name is a peer dependency, so the consuming app owns exactly
+one copy of React, of Designsystemet and of the font. Keep the two `@digdir/designsystemet-*`
+packages on the same version: their CSS class contract is version-coupled upstream, and npm
+won't catch a mismatch.
 
-Two CSS imports at your app entry and the wiring is done:
+Two CSS imports at the app entry:
 
 ```ts
 import "dibk-designsystemet/fonts.css";  // Poppins @font-face declarations
@@ -31,11 +29,11 @@ import "dibk-designsystemet/styles.css"; // everything else, in cascade order
 ```
 
 Both stylesheets reference their dependencies by bare specifier, so you need a bundler that
-resolves those inside CSS. Vite, webpack with css-loader, Next, Parcel and esbuild all do.
+resolves those inside CSS: Vite, webpack with css-loader, Next, Parcel or esbuild. A plain
+`<link rel="stylesheet">` with no build step won't work.
 
 Then build a page. `DibkAppShell` is the frame: it wires up header, mega-menu, content
-container and footer, and it owns the page width, so your pages are content and nothing
-else.
+container and footer, and it owns the page width, so pages only have to render content.
 
 ```tsx
 import { DibkAppShell, Heading, Paragraph, Button, Card } from "dibk-designsystemet";
@@ -59,15 +57,12 @@ export function Page() {
 }
 ```
 
-We re-export all of `@digdir/designsystemet-react`, already themed, so import it from
-`dibk-designsystemet` and don't reach for the base package. Our own components are prefixed
-`Dibk` so you always know whose is whose: `DibkAppShell`, `DibkHeader`, `DibkMegaMenu`,
-`DibkMenuSection`, `DibkSearch`, `DibkFooter`, `DibkLogo`, `DibkIconLinkList`,
-`DibkSectionHeader`, `DibkFeedbackWidget`, `DibkAccountMenu`, `DibkMenuLogin`,
-`DibkCopyButton`, `DibkCopyIconButton`, `DibkCodeBlock`.
+All of `@digdir/designsystemet-react` is re-exported and already themed, so import it from
+`dibk-designsystemet` rather than the base package. The DIBK additions are prefixed `Dibk`,
+and `DibkAppShell`, `DibkHeader`, `DibkMegaMenu` and `DibkFooter` do most of the work.
 
 The layout primitives (`Stack`, `Cluster`, `Sidebar`, `Grid`) are unprefixed, because
-layout is nobody's brand, and they sit on the `/layout` subpath out of the way of
+layout is generic, and they sit on the `/layout` subpath out of the way of
 Designsystemet's namespace. The brand icons are on `/icons`.
 
 | Entry | Contents |
@@ -77,34 +72,25 @@ Designsystemet's namespace. The brand icons are on `/icons`.
 | `dibk-designsystemet/icons` | DIBK brand icons |
 | `dibk-designsystemet/styles.css` | Everything: DS component CSS, theme, base, overrides, layout |
 | `dibk-designsystemet/fonts.css` | Poppins `@font-face` declarations |
-| `dibk-designsystemet/theme.css`, `/index.css`, `/layout.css` | The pieces of `styles.css`, if you need your own cascade |
+| `dibk-designsystemet/theme.css`, `/index.css`, `/layout.css` | The pieces of `styles.css`, for a custom cascade |
 | `dibk-designsystemet/swagger.css` | Standalone Swagger UI skin |
 
 The component reference, the page-layout rules, the theming tokens, the icon list and the
 Swagger UI setup are all in the [package README](packages/designsystem/README.md).
 
-## The design language
-
-- Accent navy `#003045`, and `border-radius: 0` everywhere. The square corners are the
-  signature trait, so don't round anything.
-- Poppins, self-hosted through `@fontsource/poppins` (OFL-1.1). We tone the weight tokens
-  down a notch because Poppins renders heavy. We don't ship PP Mori, the font dibk.no uses.
-- Pale surface colors as `--dibk-surface-{blue,green,orange,grey,pink}`. They're picked for
-  the brand, not derived from the accent, so you won't find them by generating a palette.
-
 ## What's in the repo
 
-- `packages/designsystem` (`dibk-designsystemet`) is the library we publish. It re-exports
+- `packages/designsystem` (`dibk-designsystemet`) is the published library. It re-exports
   all of `@digdir/designsystemet-react`, adds the DIBK components, and ships the generated
   theme, base and override CSS along with the layout primitives and brand icons.
-- `apps/demo` (`dibk-designsystemet-demo`) is a runnable Vite app and the best way to see
-  what you get. `#/` explains the design system, `#/nettsted` is a full public-facing
-  example site and `#/komponenter` is the component catalog. Everything in the examples is
-  invented, none of it is real DIBK content.
+- `apps/demo` (`dibk-designsystemet-demo`) is a runnable Vite app, and the quickest way to
+  see the components in a real page. `#/` explains the design system, `#/nettsted` is a
+  full public-facing example site and `#/komponenter` is the component catalog. Everything
+  in the examples is invented, none of it is real DIBK content.
 
 The demo aliases each JS entry to the library source, so editing a component hot-reloads
 without a rebuild. The CSS entries are generated into `dist/`, so run `pnpm build` once
-before you start.
+first.
 
 ## Working on it
 
@@ -118,39 +104,20 @@ pnpm theme             # regenerate dist/theme.css only
 pnpm icons             # regenerate the icon components from svg/ only
 ```
 
-Most of what you'd want to change has a generator behind it, so edit the input and not the
-output:
-
-- **The theme.** `pnpm theme` runs `packages/designsystem/scripts/build-theme.mjs`, which
-  turns the brand color, the radius and the font into `dist/theme.css` using
-  `formatThemeCSS` from `@digdir/designsystemet/tokens`. Edit the script, not the CSS.
-- **The icons.** The raw SVGs in `packages/designsystem/svg/` are the source of truth and
-  `pnpm icons` regenerates `src/icons/` from them.
-- **A stock Designsystemet component that looks wrong for DIBK.** Add a rule to
-  `packages/designsystem/src/overrides.css`. Designsystemet's CSS sits in `@layer ds`, so a
-  plain unlayered rule there wins with no specificity games and no `!important`.
+The theme, the icons and the CSS entries are all generated, so there's an input to edit in
+each case rather than the output. [DEVELOPING.md](DEVELOPING.md) covers that, how
+Designsystemet is tailored to the DIBK look, the page geometry and the layout primitives.
 
 CI runs on every push and pull request: typecheck, build the library, build the demo, and
 lint the published manifest with `publint`. Pushes to `main` deploy the demo to GitHub
 Pages.
 
-Missing a component, or found one that fights you? Open an
-[issue](https://github.com/Arkitektum/dibk-designsystemet/issues).
+The package is published to public npmjs as `dibk-designsystemet`, unscoped, from a GitHub
+Release. See [DEVELOPING.md](DEVELOPING.md#releasing).
+
+Bug reports and requests go in the
+[issue tracker](https://github.com/Arkitektum/dibk-designsystemet/issues).
 
 ## License
 
 Copyright DIBK. All rights reserved. See [LICENSE.md](LICENSE.md).
-
-## Publishing
-
-We publish to public npmjs as `dibk-designsystemet`, unscoped. `pnpm build` runs from
-`prepublishOnly`, so a tarball can't ship a stale or empty `dist/`.
-
-Check the package contract before you release:
-
-```sh
-cd packages/designsystem
-npx publint                              # manifest and exports-map lint
-npm pack --dry-run                       # what actually ships
-npx @arethetypeswrong/cli $(npm pack --pack-destination /tmp --json | head -1)
-```

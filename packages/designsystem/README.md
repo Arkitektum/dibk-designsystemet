@@ -1,9 +1,8 @@
 # dibk-designsystemet
 
-The DIBK design system. We take [Designsystemet](https://designsystemet.no/), Digdir's
-Norwegian government design system, apply the DIBK theme (navy `#003045`, square corners,
-Poppins) and add the brand components, brand icons and layout primitives that
-Designsystemet has no equivalent for. One package, one install.
+The DIBK design system. Takes [Designsystemet](https://designsystemet.no/), Digdir's design
+system, applies the DIBK theme and adds the brand components, brand icons and layout
+primitives that Designsystemet has no equivalent for.
 
 ```tsx
 import { Button, Card, Table, DibkHeader, DibkFooter } from "dibk-designsystemet";
@@ -16,17 +15,17 @@ npm install dibk-designsystemet \
   react react-dom @digdir/designsystemet-react @digdir/designsystemet-css @fontsource/poppins
 ```
 
-Everything after the package name is a peer dependency, so your app owns exactly one copy
-of React, of Designsystemet and of the font. Keep the two `@digdir/designsystemet-*`
+Everything after the package name is a peer dependency, so the consuming app owns exactly
+one copy of React, of Designsystemet and of the font. Keep the two `@digdir/designsystemet-*`
 packages on the same version: their CSS class contract is version-coupled upstream, and npm
-won't catch a mismatch for you.
+won't catch a mismatch.
 
-We publish to public npmjs, so there's no registry configuration to do, and the package
+Published to public npmjs, so there's no registry configuration to do, and the package
 ships both ESM and CJS.
 
 ## Setup
 
-Two CSS imports at your app entry:
+Two CSS imports at the app entry:
 
 ```ts
 import "dibk-designsystemet/fonts.css";  // Poppins @font-face declarations
@@ -34,7 +33,7 @@ import "dibk-designsystemet/styles.css"; // everything else, in cascade order
 ```
 
 `styles.css` pulls in Designsystemet's component CSS, the DIBK theme tokens, the brand base
-(which puts the font on `<body>`), our component styles, our tailoring of Designsystemet's
+(which puts the font on `<body>`), the component styles, the DIBK tailoring of Designsystemet's
 components, and the layout primitives, in that order.
 
 The JS entries import no CSS of their own, so Node can load them for SSR and so the CJS
@@ -47,8 +46,8 @@ resolves those inside CSS: Vite, webpack with css-loader, Next, Parcel or esbuil
 
 ## Usage
 
-We re-export everything from `@digdir/designsystemet-react`, already themed, so import it
-from here rather than from the base package:
+Everything from `@digdir/designsystemet-react` is re-exported and already themed, so import
+it from here rather than from the base package:
 
 ```tsx
 import { Heading, Paragraph, Button, Card, Alert, Details } from "dibk-designsystemet";
@@ -64,8 +63,7 @@ function Example() {
 }
 ```
 
-Our own components are prefixed `Dibk`, so it stays obvious which are ours and which are
-Designsystemet's:
+The DIBK components are prefixed `Dibk`, so it stays obvious which are which:
 
 ```tsx
 import { DibkHeader, DibkMegaMenu, DibkFooter } from "dibk-designsystemet";
@@ -86,7 +84,7 @@ import { DibkHeader, DibkMegaMenu, DibkFooter } from "dibk-designsystemet";
 | `DibkAccountMenu` | Header account control: initials avatar and dropdown (name, email, role, Logg ut) |
 | `DibkMenuLogin` | "Logg inn" row for the mega-menu's `menuExtra` slot |
 | `DibkCopyButton` / `DibkCopyIconButton` | "Kopier" button that flips to "✓ Kopiert!", plus a quiet icon-only variant |
-| `DibkCodeBlock` | Labelled monospace block with an optional Kopier button |
+| `DibkCodeBlock` | Labeled monospace block with an optional Kopier button |
 
 All of them forward `className`, `style`, `ref`, `data-*` and the rest of their root
 element's props, so they'll compose into whatever layout you have.
@@ -96,7 +94,7 @@ element's props, so they'll compose into whatever layout you have.
 `DibkAppShell` is the page frame. It wires up the header, mega-menu, content container and
 footer, and it owns the page width: children render inside the canonical container, so they
 line up with the header and footer at every viewport width. Write one thin shell wrapper
-for your app and let your pages render content only.
+per app and let the pages render content only.
 
 ```tsx
 <DibkAppShell
@@ -109,36 +107,19 @@ for your app and let your pages render content only.
 </DibkAppShell>
 ```
 
-The page column is two tokens in `base.css`:
-
-- `--dibk-container-max`, the container's max-width (`1400px`)
-- `--dibk-container-pad`, the fluid side gutter inside it (`clamp(1.25rem, 6vw, 6rem)`)
-
-`DibkHeader`, `DibkMegaMenu`, `DibkFooter` and the shell's content container all use this
-geometry, which is what makes their content edges line up. Two things will break that, and
-both are easy to do by accident:
-
-1. Painting a background or border on an element that has the container geometry. The color
-   fills the gutter padding too, and the panel then reads as wider than the top bar.
-   Colored panels go *inside* the container: they span the content column, and their own
-   padding is the panel's inset.
-2. Hand-rolling the page width. Inside the shell your sections need no `max-width`,
-   `margin: auto` or side padding. If some surface genuinely can't use the shell, copy the
-   geometry exactly (`max-width: var(--dibk-container-max); margin-inline: auto;
-   padding-inline: var(--dibk-container-pad)`). A fixed side padding lines up at one window
-   size and drifts at every other, because the gutter is fluid.
+`DibkHeader`, `DibkMegaMenu`, `DibkFooter` and the shell's content container share the same
+page geometry, which is what makes their content edges line up. Inside the shell,
+sections need no `max-width`, `margin: auto` or side padding; adding them will break the
+alignment, because the side gutter is fluid rather than a fixed width.
 
 ## Layout primitives
 
 Four composable layout components, the [Every Layout](https://every-layout.dev/) patterns,
-so you don't hand-roll flex and grid CSS or invent a spacing scale per app. Each one is a
-thin element with a co-located CSS class (`l-*`) and no runtime, and spacing is a single
-`gap` prop mapped onto the design tokens.
+so you don't hand-roll flex and grid CSS or invent a spacing scale per app. They have no
+runtime, and spacing is a single `gap` prop mapped onto the design tokens.
 
-They're unprefixed, because layout is nobody's brand, and they live on their own subpath.
-The main barrel star-exports `@digdir/designsystemet-react`, and a name that arrives through
-two star-exports is dropped from both rather than shadowing, so if we put them in the barrel
-an upstream release adding its own `Grid` or `Stack` would break your imports.
+They're unprefixed, because layout is generic, and they live on their own subpath so their
+names can't collide with Designsystemet's.
 
 ```tsx
 import { Stack, Cluster, Sidebar, Grid } from "dibk-designsystemet/layout";
@@ -156,8 +137,8 @@ import { Stack, Cluster, Sidebar, Grid } from "dibk-designsystemet/layout";
 forwards `ref` plus the element's own props.
 
 Spacing belongs to the layout, not to the component. Rather than putting a `margin` on a
-component to push it off its neighbour, wrap the group in a `Stack` and let `gap` do it.
-One spacing scale, and no margin-collapsing surprises.
+component to push it off its neighbour, wrap the group in a `Stack` and let `gap` do it,
+which keeps one spacing scale and avoids margin-collapsing surprises.
 
 ```tsx
 // page sections
@@ -204,28 +185,10 @@ Tune it with `--l-sidebar-width` (side column, default `18rem`) and
 `--l-grid-min` sets the minimum column width (default `16rem`). The grid fits as many equal
 columns as that allows and reflows down without breakpoints.
 
-### Container queries
-
-Because the primitives reflow by available space, most layouts need no media queries at
-all. When a component does have to restyle by its own width rather than the screen's, give
-it a container context and query that. It'll then behave whether it lands in a wide `Stack`
-list, a narrow `Grid` cell or a `Sidebar`:
-
-```css
-.card-frame { container: card / inline-size; }      /* a wrapper the component renders */
-@container card (min-width: 30rem) {
-  .card { grid-template-columns: auto 1fr; }         /* reads the slot, not the viewport */
-}
-```
-
-Watch out for one thing: a `@container` query reads an ancestor marked `container-type`,
-never the element itself. That's why the component renders `frame > content` and the content
-queries the frame. Keep viewport media queries for genuine page-level chrome.
-
 ## Theming
 
-The theme is a set of `--ds-*` and `--dibk-*` CSS custom properties. No runtime, no
-provider. The DIBK signature:
+The theme is a set of `--ds-*` and `--dibk-*` CSS custom properties, so there's no runtime
+and no provider component to wrap the app in. The DIBK signature:
 
 - Accent navy `#003045` and `border-radius: 0` everywhere.
 - Poppins, with the weight tokens toned down a notch, because Poppins renders heavy.
@@ -236,7 +199,7 @@ provider. The DIBK signature:
 ### Card surfaces
 
 Cards are flat, with no border. Pick the background with `data-dibk-color`, which tints the
-panel and leaves buttons and headings navy. We use our own attribute here because
+panel and leaves buttons and headings navy. It's a dedicated attribute because
 Designsystemet's `data-color` would cascade the whole color family and turn the buttons
 blue too.
 
@@ -249,19 +212,11 @@ blue too.
 <Card data-dibk-color="pink">…</Card>
 ```
 
-### Changing the theme
-
-`theme.css` is generated from a single brand color by `scripts/build-theme.mjs`, which calls
-Designsystemet's `formatThemeCSS`. Change the script and run `pnpm theme`, don't edit the
-generated file. Our tailoring of individual Designsystemet components lives in
-`src/overrides.css` as plain unlayered rules, which win over Designsystemet's `@layer ds`
-without needing `!important`.
-
 ## Icons
 
 Thirteen DIBK brand illustrations as React components, on the `/icons` subpath. They're
-multi-colour brand artwork (navy, orange, light blue, green), so they ignore `currentColor`
-and you can't recolour them. For general UI iconography use Designsystemet's icons, which
+multi-color brand artwork (navy, orange, light blue, green), so they ignore `currentColor`
+and you can't recolor them. For general UI iconography use Designsystemet's icons, which
 come with `@digdir/designsystemet-react`.
 
 ```tsx
@@ -278,21 +233,21 @@ Available: `bygge-endre`, `byggevarer`, `byggteknisk`, `forskrift`, `forskrift-s
 
 ## Fonts
 
-The brand font is Poppins, delivered through `@fontsource/poppins` as a peer dependency. We
-don't ship PP Mori, the font dibk.no uses.
+The brand font is Poppins, delivered through `@fontsource/poppins` (OFL-1.1) as a peer
+dependency.
 
 `fonts.css` declares the latin and latin-ext subsets at weights 300 to 700 as woff2,
-pointing at the font files in your own `@fontsource/poppins`. The `unicode-range`
+pointing at the font files in the installed `@fontsource/poppins`. The `unicode-range`
 declarations mean a browser only downloads the subsets and weights a page actually renders.
 
-Want a different typeface? Skip `fonts.css`, import `styles.css` alone and set
+For a different typeface, skip `fonts.css`, import `styles.css` alone and set
 `--ds-font-family` yourself.
 
 ## Swagger UI skin
 
 `swagger.css` is a standalone DIBK skin for [Swagger UI](https://swagger.io/tools/swagger-ui/),
 for apps that expose an API browser. Swagger UI brings its own DOM and its own bundle, so
-this is plain static CSS targeting its class names rather than a bundled entry: your host
+this is plain static CSS targeting its class names rather than a bundled entry: the host
 serves it as a static file and tells Swagger UI to inject it.
 
 Two things have to end up on disk in this layout, because the stylesheet's `@font-face`
@@ -307,11 +262,11 @@ URLs are relative to the stylesheet:
 <served-root>/fonts/poppins-latin-700-normal.woff2
 ```
 
-The fonts come from the `@fontsource/poppins` you already have as a peer dependency. We
-don't bundle them, because Swagger UI has no bundler to resolve them through. Skip the
+The fonts come from the `@fontsource/poppins` already installed as a peer dependency. They
+are not bundled here, because Swagger UI has no bundler to resolve them through. Skip the
 fonts and the skin still applies, it just falls back to system-ui.
 
-Assemble the directory during your build, for example in a Docker stage that has already
+Assemble the directory during the build, for example in a Docker stage that has already
 run `npm ci`:
 
 ```dockerfile
@@ -350,16 +305,19 @@ else to configure.
 | `dibk-designsystemet/layout.css` | Layout primitive CSS alone |
 | `dibk-designsystemet/swagger.css` | Standalone Swagger UI skin (see [above](#swagger-ui-skin)) |
 
-Reach for `styles.css`. The granular CSS entries are there for the rare app that needs to
-compose a different cascade.
+Use `styles.css` unless you have a reason not to; the granular CSS entries are there for
+apps that need to compose a different cascade.
+
+## Demo and support
+
+`apps/demo` in the repository is a runnable app built on this package: an information page,
+a component catalog and a full example site. The
+[repository README](https://github.com/Arkitektum/dibk-designsystemet#readme) says how to
+run it.
+
+Missing a component, or having trouble with one? Open an
+[issue](https://github.com/Arkitektum/dibk-designsystemet/issues).
 
 ## License
 
 Copyright DIBK. All rights reserved. See `LICENSE.md`.
-
-Missing a component, or fighting one? Open an
-[issue](https://github.com/Arkitektum/dibk-designsystemet/issues).
-
-`apps/demo` in the repository is a runnable app built on this package: an information page,
-a component catalog and a full example site. The [repository
-README](../../README.md) says how to run it.
