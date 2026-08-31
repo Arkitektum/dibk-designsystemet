@@ -20,8 +20,14 @@
     "noUncheckedSideEffectImports": true,
 
     "types": ["vite/client"],
+    // One entry per JS entry point, mirroring the aliases in vite.config.ts, so
+    // typechecking reads the library source and never needs dist/ to exist. The
+    // CSS subpaths are deliberately absent: they are generated into dist/ and
+    // resolve through the workspace link's exports map.
     "paths": {
-      "dibk-designsystemet": ["../../packages/designsystem/src/index.ts"]
+      "dibk-designsystemet": ["../../packages/designsystem/src/index.ts"],
+      "dibk-designsystemet/layout": ["../../packages/designsystem/src/layout.ts"],
+      "dibk-designsystemet/icons": ["../../packages/designsystem/src/icons/index.ts"]
     }
   },
   "include": ["src", "vite.config.ts"]
