@@ -5,9 +5,9 @@ Notable changes to `dibk-designsystemet`. Format follows
 [semver](https://semver.org/), where a minor release may adjust visual details and a
 major release changes the component API.
 
-## 1.0.0-rc.1
+## 1.0.0 - 2026-08-31
 
-First release candidate.
+First release.
 
 ### Added
 
